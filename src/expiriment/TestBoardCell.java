@@ -9,6 +9,7 @@ public class TestBoardCell {
     int col;
     private Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
     
+    boolean occupied;
     boolean isRoom;
 	
 	
@@ -25,10 +26,16 @@ public class TestBoardCell {
     	return adjList;
     }
     
-    public void setOccupied(boolean b) {
-    	this.isRoom = b;
+    public void setOccupied(boolean bool) {
+    	this.occupied = bool;
     }
     public boolean getOccupied() {
+    	return occupied;
+    }
+    public void setIsRoom(boolean bool) {
+    	this.isRoom = bool;
+    }
+    public boolean getIsRoom() {
     	return isRoom;
     }
     
