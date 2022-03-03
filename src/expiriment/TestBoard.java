@@ -8,25 +8,35 @@ import java.util.Set;
 public class TestBoard {
 	private TestBoardCell[][] board;
 	private Set<TestBoardCell> targets = new HashSet<TestBoardCell>();
-	public Map<TestBoardCell, Set<TestBoardCell>> adjMtx;
 	
 	public TestBoard(int x, int y){
 		board = new TestBoardCell[x][y];
 		for (int i = 0 ; i < x ; i++ ) {
 			for(int j = 0; j < y; j++) {
-				TestBoardCell temp = new TestBoardCell(x,y);
-				board[x][y] = temp;
+				TestBoardCell temp = new TestBoardCell(i,j);
+				board[i][j] = temp;
 			}
 		}
 		for (int i = 0 ; i < x ; i++ ) {
 			for(int j = 0; j < y; j++) {
-				board[x][y].addAdjacency(board[x+1][y]);
-				board[x][y].addAdjacency(board[x-1][y]);
-				board[x][y].addAdjacency(board[x][y+1]);
-				board[x][y].addAdjacency(board[x][y-1]);
-				adjMtx.put(board[x][y], board[x][y].getAdjList());
+				TestBoardCell temp1 = new TestBoardCell(i+1,j);
+				TestBoardCell temp2 = new TestBoardCell(i-1,j);
+				TestBoardCell temp3 = new TestBoardCell(i,j);
+				TestBoardCell temp4 = new TestBoardCell(i+1,j);
+				board[i][j].addAdjacency(temp1);
+				board[i][j].addAdjacency(temp2);
+				board[i][j].addAdjacency(temp3);
+				board[i][j].addAdjacency(temp4);
 			}
 		}	
+	}
+	
+	public TestBoardCell getCell(int x, int y) {
+		return board[x][y];
+	}
+	
+	public Set<TestBoardCell> getTargets(){
+		return targets;
 	}
 	
 	public void calcTargets(TestBoardCell startCell,int pathLength) {
