@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class TestBoardCell {
-    int row;
     int col;
+    int row;
     private Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
     
     boolean occupied;
@@ -14,8 +14,8 @@ public class TestBoardCell {
 	
 	
     public TestBoardCell(int row, int col){
-    	this.row = row;
-    	this.col = col;
+    	this.col = row;
+    	this.row = col;
 
     }
     
@@ -37,6 +37,12 @@ public class TestBoardCell {
     }
     public boolean getIsRoom() {
     	return isRoom;
+    }
+    public int getCol() {
+    	return col;
+    }
+    public int getRow() {
+    	return row;
     }
     
 }

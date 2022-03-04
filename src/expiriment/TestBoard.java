@@ -19,14 +19,20 @@ public class TestBoard {
 		}
 		for (int i = 0 ; i < x ; i++ ) {
 			for(int j = 0; j < y; j++) {
-				TestBoardCell temp1 = new TestBoardCell(i+1,j);
-				TestBoardCell temp2 = new TestBoardCell(i-1,j);
-				TestBoardCell temp3 = new TestBoardCell(i,j);
-				TestBoardCell temp4 = new TestBoardCell(i+1,j);
-				board[i][j].addAdjacency(temp1);
-				board[i][j].addAdjacency(temp2);
-				board[i][j].addAdjacency(temp3);
-				board[i][j].addAdjacency(temp4);
+				
+				if((i-1)>=0) {
+					board[i][j].addAdjacency(board[i-1][j]);
+				}
+				if((j-1)>=0) {
+					board[i][j].addAdjacency(board[i][j-1]);
+				}
+				if(j<(y-1)) {
+					board[i][j].addAdjacency(board[i][j+1]);
+				}
+				if(i<(x-1)) {
+					board[i][j].addAdjacency(board[i+1][j]);
+				}	
+				
 			}
 		}	
 	}
