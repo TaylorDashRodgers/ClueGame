@@ -48,6 +48,10 @@ public class TestBoard {
 	
 	public void calcTargets(TestBoardCell startCell,int pathLength) {
 		visited.add(startCell);
+		for(TestBoardCell cl : visited) {
+			System.out.println("func");
+			System.out.println(cl.getCol() + " " + cl.getRow());
+		}
 		for(TestBoardCell cell : startCell.getAdjList()) {
 			if(!visited.contains(cell)) {
 				visited.add(cell);
@@ -58,11 +62,12 @@ public class TestBoard {
 				}
 				else {
 					if(!cell.occupied) {
-					calcTargets(cell,pathLength-1);
+						calcTargets(cell,pathLength-1);
 					}
 				}
-				visited.remove(cell);
-			}	
+			}
+			visited.remove(cell);
 		}
+
 	}
 }
