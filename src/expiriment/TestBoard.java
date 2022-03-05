@@ -8,7 +8,9 @@ import java.util.Set;
 public class TestBoard {
 	private TestBoardCell[][] board;
 	private Set<TestBoardCell> targets = new HashSet<TestBoardCell>();
-	private ArrayList <TestBoardCell> visited = new ArrayList<TestBoardCell>();
+//	private ArrayList <TestBoardCell> visited = new ArrayList<TestBoardCell>();
+	private Set<TestBoardCell> visited = new HashSet<TestBoardCell>();
+
 	
 	public TestBoard(int x, int y){
 		board = new TestBoardCell[x][y];
@@ -48,10 +50,6 @@ public class TestBoard {
 	
 	public void calcTargets(TestBoardCell startCell,int pathLength) {
 		visited.add(startCell);
-		for(TestBoardCell cl : visited) {
-			System.out.println("func");
-			System.out.println(cl.getCol() + " " + cl.getRow());
-		}
 		for(TestBoardCell cell : startCell.getAdjList()) {
 			if(!visited.contains(cell)) {
 				visited.add(cell);
@@ -66,8 +64,9 @@ public class TestBoard {
 					}
 				}
 			}
-			visited.remove(cell);
+//			visited.remove(cell);
 		}
+		visited.remove(startCell);
 
 	}
 }
