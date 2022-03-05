@@ -9,7 +9,6 @@ public class Board {
 
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
-	private ArrayList <BoardCell> visited = new ArrayList<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
     private final static int COLS = 23;
     private final static int ROWS = 23;
@@ -19,9 +18,7 @@ public class Board {
        */
        private static Board theInstance = new Board();
        // constructor is private to ensure only one can be created
-       private Board() {
-              super() ;
-       }
+      
        // this method returns the only Board
        public static Board getInstance() {
               return theInstance;
@@ -34,7 +31,7 @@ public class Board {
        }
 	
 	private Board(){
-		board = new BoardCell[x][y];
+		board = new BoardCell[COLS][ROWS];
 		for (int i = 0 ; i < COLS ; i++ ) {
 			for(int j = 0; j < ROWS; j++) {
 				BoardCell temp = new BoardCell(i,j);
@@ -50,10 +47,10 @@ public class Board {
 				if((j-1)>=0) {
 					board[i][j].addAdjacency(board[i][j-1]);
 				}
-				if(j<(y-1)) {
+				if(j<(ROWS-1)) {
 					board[i][j].addAdjacency(board[i][j+1]);
 				}
-				if(i<(x-1)) {
+				if(i<(COLS-1)) {
 					board[i][j].addAdjacency(board[i+1][j]);
 				}	
 				
@@ -61,11 +58,7 @@ public class Board {
 		}	
 	}
 
-    private static Board theInstance = new Board();
-       // constructor is private to ensure only one can be created
-       private Board() {
-              super() ;
-       }
+
 	
 	public BoardCell getCell(int x, int y) {
 		return board[x][y];
