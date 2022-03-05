@@ -89,4 +89,17 @@ public class Board {
 		visited.remove(startCell);
 
 	}
+	public Room getRoom(char c) {
+		return null;
+	}
+	
+	public Object getNumRows() {
+		return ROWS;
+	}
+	
+	public Object getNumCols() {
+		return COLS;
+	}
+	
+	
 }
