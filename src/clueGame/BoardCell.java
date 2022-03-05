@@ -9,6 +9,9 @@ public class BoardCell {
 	int col;
     int row;
     private Set<BoardCell> adjList = new HashSet<BoardCell>();
+    boolean door;
+    private char cellInfo;
+   
     
     boolean occupied;
     boolean isRoom;
@@ -45,5 +48,24 @@ public class BoardCell {
     public int getRow() {
     	return row;
     }
+    
+   public boolean isDoorway() {
+	   return false;
+   }
+   
+   public boolean isRoomCenter() {
+	   return false;
+   }
+   
+   public boolean isLabel() {
+	   return false;
+   }
+   
+   public DoorDirection getDoorDirection() {
+	   return DoorDirection.UP;
+   }
+   public char getSecretPassage() {
+	   return cellInfo;
+   }
 
 }

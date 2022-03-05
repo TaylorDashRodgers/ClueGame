@@ -10,8 +10,8 @@ public class Board {
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-    private final static int COLS = 23;
-    private final static int ROWS = 23;
+    private final static int COLS = 24;
+    private final static int ROWS = 24;
 
 	       /*
        * variable and methods used for singleton pattern
@@ -90,15 +90,25 @@ public class Board {
 
 	}
 	public Room getRoom(char c) {
-		return null;
+		Room temp = new Room();
+		return temp;
 	}
 	
-	public Object getNumRows() {
+	public int getNumRows() {
 		return ROWS;
 	}
 	
-	public Object getNumCols() {
+	public int getNumColumns() {
 		return COLS;
+	}
+	
+	public Room getRoom(BoardCell cell) {
+		Room temp = new Room();
+		return temp;
+	}
+	public void setConfigFiles(String string, String string2) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
