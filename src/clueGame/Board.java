@@ -1,0 +1,99 @@
+package clueGame;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class Board {
+
+	private BoardCell[][] board;
+	private Set<BoardCell> targets = new HashSet<BoardCell>();
+	private ArrayList <BoardCell> visited = new ArrayList<BoardCell>();
+	private Set<BoardCell> visited = new HashSet<BoardCell>();
+    private final static int COLS = 23;
+    private final static int ROWS = 23;
+
+	       /*
+       * variable and methods used for singleton pattern
+       */
+       private static Board theInstance = new Board();
+       // constructor is private to ensure only one can be created
+       private Board() {
+              super() ;
+       }
+       // this method returns the only Board
+       public static Board getInstance() {
+              return theInstance;
+       }
+       /*
+        * initialize the board (since we are using singleton pattern)
+        */
+       public void initialize()
+       {
+       }
+	
+	private Board(){
+		board = new BoardCell[x][y];
+		for (int i = 0 ; i < COLS ; i++ ) {
+			for(int j = 0; j < ROWS; j++) {
+				BoardCell temp = new BoardCell(i,j);
+				board[i][j] = temp;
+			}
+		}
+		for (int i = 0 ; i < COLS ; i++ ) {
+			for(int j = 0; j < ROWS; j++) {
+				
+				if((i-1)>=0) {
+					board[i][j].addAdjacency(board[i-1][j]);
+				}
+				if((j-1)>=0) {
+					board[i][j].addAdjacency(board[i][j-1]);
+				}
+				if(j<(y-1)) {
+					board[i][j].addAdjacency(board[i][j+1]);
+				}
+				if(i<(x-1)) {
+					board[i][j].addAdjacency(board[i+1][j]);
+				}	
+				
+			}
+		}	
+	}
+
+    private static Board theInstance = new Board();
+       // constructor is private to ensure only one can be created
+       private Board() {
+              super() ;
+       }
+	
+	public BoardCell getCell(int x, int y) {
+		return board[x][y];
+	}
+	
+	public Set<BoardCell> getTargets(){
+		return targets;
+	}
+	
+	public void calcTargets(BoardCell startCell,int pathLength) {
+		visited.add(startCell);
+		for(BoardCell cell : startCell.getAdjList()) {
+			if(!visited.contains(cell)) {
+				visited.add(cell);
+				if(pathLength == 1 || cell.isRoom) {
+					if(!cell.occupied) {
+						targets.add(cell);
+					}	
+				}
+				else {
+					if(!cell.occupied) {
+						calcTargets(cell,pathLength-1);
+					}
+				}
+			}
+			visited.remove(cell);
+		}
+		visited.remove(startCell);
+
+	}
+}
