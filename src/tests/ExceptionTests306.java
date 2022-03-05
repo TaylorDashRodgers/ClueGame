@@ -25,7 +25,7 @@ public class ExceptionTests306 {
 		// This is necessary because initialize contains a try-catch.
 		board.loadSetupConfig();
 		// This one should throw an exception
-		board.loadLayoutConfig();
+		board.loadSetupConfig();
 	}
 
 	// Test that an exception is thrown for a config file that specifies
@@ -36,7 +36,7 @@ public class ExceptionTests306 {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayoutBadRoom306.csv", "ClueSetup306.txt");
 		board.loadSetupConfig();
-		board.loadLayoutConfig();
+		board.loadSetupConfig();
 	}
 
 	// Test that an exception is thrown for a config file with a room type
@@ -46,7 +46,7 @@ public class ExceptionTests306 {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout306.csv", "ClueSetupBadFormat306.txt");
 		board.loadSetupConfig();
-		board.loadLayoutConfig();
+		board.loadSetupConfig();
 	}
 
 }

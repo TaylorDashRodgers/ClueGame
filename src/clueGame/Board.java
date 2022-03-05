@@ -110,6 +110,10 @@ public class Board {
 		// TODO Auto-generated method stub
 		
 	}
+	public void loadSetupConfig() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
