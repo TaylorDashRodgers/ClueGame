@@ -64,7 +64,7 @@ public class TestBoard {
 					}
 				}
 			}
-//			visited.remove(cell);
+			visited.remove(cell);
 		}
 		visited.remove(startCell);
 

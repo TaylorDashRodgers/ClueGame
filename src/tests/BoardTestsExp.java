@@ -113,8 +113,8 @@ class BoardTestsExp {
 		System.out.println(targets.size());
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
-		Assert.assertTrue(targets.contains(board.getCell(2, 2)));
-		Assert.assertTrue(targets.contains(board.getCell(3, 3)));	
+		Assert.assertTrue(targets.contains(board.getCell(2, 3)));
+		Assert.assertTrue(targets.contains(board.getCell(0, 2)));	
 	}
 	
 	@Test
