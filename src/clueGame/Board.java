@@ -3,6 +3,7 @@ package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,42 +19,36 @@ public class Board {
 	private String csvConfig;
 	private String txtConfig;
 	private ArrayList<String> boardCells = new ArrayList();
-	       /*
-       * variable and methods used for singleton pattern
-       */
-       private static Board theInstance = new Board();
-       // constructor is private to ensure only one can be created
+	private Map<String,String> rooms = new HashMap();
+	    /*
+       	* variable and methods used for singleton pattern
+       	*/
+       	private static Board theInstance = new Board();
+       	// constructor is private to ensure only one can be created
       
-       // this method returns the only Board
-       public static Board getInstance() {
-              return theInstance;
-       }
-       /*
+       	// this method returns the only Board
+       	public static Board getInstance() {
+            return theInstance;
+       	}
+       	/*
         * initialize the board (since we are using singleton pattern)
         */
-       public void initialize() throws FileNotFoundException {
-    	   FileReader reader = new FileReader(csvConfig);  //if fileName isn't valid, exception will get thrown to processFiles()
-    	   Scanner in = new Scanner(reader);
-		   String curRow;
-		   int row = 0;
-		   int col = 1;
-		   while(in.hasNextLine()){
-			   curRow = in.nextLine();
-			   row =+ 1;
-			   String curCell = "";
-			   for(int i = 0; i < curRow.length(); i++){
-				  if(curRow.charAt(i) != ','){
-					  curCell = curCell + curRow.charAt(i);
-				  }
-				  if(curRow.charAt(i) == ','){
-					  boardCells.add(curCell);
-					  col =+ 1;
-					  curCell = "";
-				  } 
-			   }
-		   }
-		   COLS = col;
-		   ROWS = row;
+       	
+     
+       	public void initialize() throws FileNotFoundException {
+    	   
+    		FileReader csv = new FileReader(csvConfig);  //if fileName isn't valid, exception will get thrown to processFiles()
+    		Scanner inCsv = new Scanner(csv);
+			String[] line = null;
+			int row = 0;
+			int col = 0 ;
+			while(inCsv.hasNextLine()){
+				line = inCsv.nextLine().split(",");
+				row =+ 1;
+			}
+		   	//initialize board
+		   	COLS = line.length;
+		   	ROWS = row;
        }
 
 	   public void setConfigFiles(String csv, String txt){
@@ -138,8 +133,16 @@ public class Board {
 		return temp;
 	}
 
-	public void loadSetupConfig() {
-		// TODO Auto-generated method stub
+	public void loadSetupConfig() throws FileNotFoundException {
+		//read in txt
+	   	FileReader txt = new FileReader(txtConfig);
+		Scanner inTxt = new Scanner(txt);
+		String[] line;
+		while(inTxt.hasNextLine()) {	
+		line = inTxt.nextLine().split(",");
+		rooms.put(line[2],line[1]);
+
+		}
 		
 	}
 	
