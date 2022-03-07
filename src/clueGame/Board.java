@@ -1,8 +1,11 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
@@ -10,9 +13,11 @@ public class Board {
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-    private final static int COLS = 24;
-    private final static int ROWS = 24;
-
+    private int COLS;
+    private int ROWS;
+	private String csvConfig;
+	private String txtConfig;
+	private ArrayList<String> boardCells = new ArrayList();
 	       /*
        * variable and methods used for singleton pattern
        */
@@ -26,9 +31,35 @@ public class Board {
        /*
         * initialize the board (since we are using singleton pattern)
         */
-       public void initialize()
-       {
+       public void initialize() throws FileNotFoundException {
+    	   FileReader reader = new FileReader(csvConfig);  //if fileName isn't valid, exception will get thrown to processFiles()
+    	   Scanner in = new Scanner(reader);
+		   String curRow;
+		   int row = 0;
+		   int col = 1;
+		   while(in.hasNextLine()){
+			   curRow = in.nextLine();
+			   row =+ 1;
+			   String curCell = "";
+			   for(int i = 0; i < curRow.length(); i++){
+				  if(curRow.charAt(i) != ','){
+					  curCell = curCell + curRow.charAt(i);
+				  }
+				  if(curRow.charAt(i) == ','){
+					  boardCells.add(curCell);
+					  col =+ 1;
+					  curCell = "";
+				  } 
+			   }
+		   }
+		   COLS = col;
+		   ROWS = row;
        }
+
+	   public void setConfigFiles(String csv, String txt){
+		   this.csvConfig = csv;
+		   this.txtConfig = txt;
+	   }
 	
 	private Board(){
 		board = new BoardCell[COLS][ROWS];
@@ -106,10 +137,7 @@ public class Board {
 		Room temp = new Room();
 		return temp;
 	}
-	public void setConfigFiles(String string, String string2) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	public void loadSetupConfig() {
 		// TODO Auto-generated method stub
 		
