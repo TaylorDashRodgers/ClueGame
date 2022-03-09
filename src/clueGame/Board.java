@@ -100,6 +100,7 @@ public class Board {
 						board[row2][col2].setRoomLabel(true);
 					}
 					if(cellText.charAt(1)=='<' || cellText.charAt(1)=='^' || cellText.charAt(1)=='>' || cellText.charAt(1)=='v') {
+						System.out.println("DOOOR");
 						board[row2][col2].setIsDoorway(true);
 						if(cellText.charAt(1)=='<' ) {
 							board[row2][col2].setDoorDirection(DoorDirection.LEFT);
