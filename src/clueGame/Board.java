@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,15 +50,8 @@ public class Board {
 		   	//initialize board
 		   	COLS = line.length;
 		   	ROWS = row;
-       }
 
-	   public void setConfigFiles(String csv, String txt){
-		   this.csvConfig = csv;
-		   this.txtConfig = txt;
-	   }
-	
-	private Board(){
-		board = new BoardCell[COLS][ROWS];
+			board = new BoardCell[COLS][ROWS];
 		for (int i = 0 ; i < COLS ; i++ ) {
 			for(int j = 0; j < ROWS; j++) {
 				BoardCell temp = new BoardCell(i,j);
@@ -81,8 +75,25 @@ public class Board {
 				}	
 				
 			}
-		}	
-	}
+		}
+
+			int y = 0;
+			while(inCsv.hasNextLine()){
+				int x = 0;
+				line = inCsv.nextLine().split(",");
+				for (String cell : line){
+					
+				}
+			}
+       }
+
+	   public void setConfigFiles(String csv, String txt){
+		   this.csvConfig = csv;
+		   System.out.println(csv);
+		   this.txtConfig = txt;
+		   System.out.println(txt);
+	   }
+	
 
 
 	
@@ -133,17 +144,32 @@ public class Board {
 		return temp;
 	}
 
-	public void loadSetupConfig() throws FileNotFoundException {
+	public void loadSetupConfig() throws BadConfigFormatException {
 		//read in txt
-	   	FileReader txt = new FileReader(txtConfig);
+	   	FileReader txt = null;
+		try {
+			txt = new FileReader(txtConfig);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Scanner inTxt = new Scanner(txt);
 		String[] line;
 		while(inTxt.hasNextLine()) {	
 		line = inTxt.nextLine().split(",");
 		rooms.put(line[2],line[1]);
-
 		}
-		
+		Set<String> keySet = rooms.keySet();
+		System.out.println();
+		for (String key : keySet) {
+			System.out.println(key + " , " + rooms.get(key));
+		}
+		try {
+			txt.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
