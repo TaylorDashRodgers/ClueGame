@@ -16,8 +16,8 @@ import clueGame.Room;
 public class FileInitTest {
     // Constants that I will use to test whether the file was loaded correctly
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 23;
-	public static final int NUM_COLUMNS = 23;
+	public static final int NUM_ROWS = 24;
+	public static final int NUM_COLUMNS = 24;
 
     private static Board board;
 
@@ -126,7 +126,7 @@ public class FileInitTest {
 		assertFalse( cell.isLabel() );
 		
 		// test a closet
-		cell = board.getCell(10, 9);
+		cell = board.getCell(23,13);
 		room = board.getRoom( cell ) ;
 		assertTrue( room != null );
 		assertEquals( room.getName(), "Unused" ) ;

@@ -47,7 +47,8 @@ public class Board {
 		//initialize board
 		COLS = line.length;
 		ROWS = row;
-
+		//System.out.println(ROWS + "/" + COLS);
+		inCsv.close();
 		board = new BoardCell[ROWS][COLS];
 		for (int i = 0 ; i < ROWS ; i++ ) {
 			for(int j = 0; j < COLS; j++) {
@@ -74,47 +75,54 @@ public class Board {
 			}
 		}
 
-		int y = 0;
-		while(inCsv.hasNextLine()){
-			int x = 0;
-			line = inCsv.nextLine().split(",");
-			System.out.println("hi");
+//		for (int i = 0 ; i < ROWS ; i++ ) {
+//			for(int j = 0; j < COLS; j++) {
+//				System.out.println(board[i][j].getRow()+","+board[i][j].getCol());
+//			}
+//		}
+		FileReader csv2 = new FileReader(csvConfig);
+		Scanner inCsv2 = new Scanner(csv2);
+		int row2 = 0;
+		while(inCsv2.hasNextLine()){
+			int col2 = 0;
+			line = inCsv2.nextLine().split(",");
 			for (String cellText : line){
-				board[y][x].setInitial(cellText.charAt(0));
+				//System.out.println(cellText.charAt(0));
+				board[row2][col2].setInitial(cellText.charAt(0));
 				if(cellText.charAt(0)!='W') {
-					board[y][x].setIsRoom(true);
+					board[row2][col2].setIsRoom(true);
 				}
 				if(cellText.length() != 1) {
 					if(cellText.charAt(1)=='*') {
-						board[y][x].setRoomCenter(true);
+						board[row2][col2].setRoomCenter(true);
 					}
 					if(cellText.charAt(1)=='#') {
-						board[y][x].setRoomLabel(true);
+						board[row2][col2].setRoomLabel(true);
 					}
 					if(cellText.charAt(1)=='<' || cellText.charAt(1)=='^' || cellText.charAt(1)=='>' || cellText.charAt(1)=='v') {
-						board[y][x].setIsDoorway(true);
+						board[row2][col2].setIsDoorway(true);
 						if(cellText.charAt(1)=='<' ) {
-							board[y][x].setDoorDirection(DoorDirection.LEFT);
+							board[row2][col2].setDoorDirection(DoorDirection.LEFT);
 						}
 						if( cellText.charAt(1)=='^' ) {
-							board[y][x].setDoorDirection(DoorDirection.UP);
+							board[row2][col2].setDoorDirection(DoorDirection.UP);
 						}
 						if( cellText.charAt(1)=='>' ) {
-							board[y][x].setDoorDirection(DoorDirection.RIGHT);
+							board[row2][col2].setDoorDirection(DoorDirection.RIGHT);
 						}
 						if( cellText.charAt(1)=='v') {
-							board[y][x].setDoorDirection(DoorDirection.DOWN);
+							board[row2][col2].setDoorDirection(DoorDirection.DOWN);
 						}
 					}
 					else {
-						board[y][x].setSecretPassage(cellText.charAt(1));
+						board[row2][col2].setSecretPassage(cellText.charAt(1));
 					}
 				}
-				x =+1;
+				col2 =+1;
 			}
-			y=+1;
+			row2=+1;
 		}
-		inCsv.close();
+		inCsv2.close();
 	}
 
 	public void initialize()  {
@@ -134,8 +142,8 @@ public class Board {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 
 	public void setConfigFiles(String csv, String txt){
@@ -146,8 +154,8 @@ public class Board {
 
 
 
-	public BoardCell getCell(int x, int y) {
-		return board[x][y];
+	public BoardCell getCell(int row, int col) {
+		return board[row][col];
 	}
 
 	public Set<BoardCell> getTargets(){
