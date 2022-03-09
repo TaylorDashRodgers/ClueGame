@@ -20,7 +20,7 @@ public class Board {
 	private String csvConfig;
 	private String txtConfig;
 	private ArrayList<String> boardCells = new ArrayList();
-	private Map<Character,Room> rooms = new HashMap();
+	private Map<Character,Room> roomsMap = new HashMap();
 	/*
 	 * variable and methods used for singleton pattern
 	 */
@@ -159,7 +159,7 @@ public class Board {
 
 	}
 	public Room getRoom(char c) {
-		return rooms.get(c);
+		return roomsMap.get(c);
 	}
 
 	public int getNumRows() {
@@ -171,7 +171,7 @@ public class Board {
 	}
 
 	public Room getRoom(BoardCell cell) {
-		return rooms.get(cell.getInitial());
+		return roomsMap.get(cell.getInitial());
 	}
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -191,7 +191,7 @@ public class Board {
 				throw new BadConfigFormatException("Not a space or room.");
 			}
 			System.out.println(line[2].charAt(0) + " " + line[1]);
-			rooms.put(line[2].charAt(0),new Room(line[1]));
+			roomsMap.put(line[2].charAt(0),new Room(line[1]));
 		}
 		inTxt.close();
 	}
