@@ -21,7 +21,6 @@ public class Board {
 	private String txtConfig;
 	private ArrayList<String> boardCells = new ArrayList();
 	private Map<Character,Room> roomsMap = new HashMap();
-	private Map<Integer,Integer> test = new HashMap();
 	/*
 	 * variable and methods used for singleton pattern
 	 */
@@ -82,6 +81,9 @@ public class Board {
 			System.out.println("hi");
 			for (String cellText : line){
 				board[y][x].setInitial(cellText.charAt(0));
+				if(cellText.charAt(0)!='W') {
+					board[y][x].setIsRoom(true);
+				}
 				if(cellText.length() != 1) {
 					if(cellText.charAt(1)=='*') {
 						board[y][x].setRoomCenter(true);
@@ -115,19 +117,24 @@ public class Board {
 		inCsv.close();
 	}
 
-	public void initialize() throws FileNotFoundException {
+	public void initialize()  {
 		try {
 			loadSetupConfig();
 		}catch (BadConfigFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			loadLayoutConfig();
 		}catch (BadConfigFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 	}
 
@@ -197,10 +204,10 @@ public class Board {
 			}
 			// splits the line up into useful chunks.
 			line = fullLine.split(",");
-			if(line[0] != "Room" || line[0] != "Space"){
+			if(!line[0].equals("Room") && !line[0].equals("Space")){
 				throw new BadConfigFormatException("Not a space or room.");
 			}
-			roomsMap.put(line[2].charAt(0),new Room(line[1],line[2].charAt(0)));
+			roomsMap.put(line[2].charAt(1),new Room(line[1].substring(1),line[2].charAt(1)));
 		}
 		inTxt.close();
 	}
