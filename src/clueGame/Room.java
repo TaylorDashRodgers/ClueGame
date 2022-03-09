@@ -10,7 +10,9 @@ public class Room {
     private BoardCell centerCell;
     private BoardCell labelCell;
     
-    public Room(String name) {
+   
+    public Room(String name, char roomSymbol) {
+    	this.roomSymbol = roomSymbol;
     	this.name = name;
     }
     public char getSymbol() {
@@ -40,6 +42,13 @@ public class Room {
     public String getName() {
     	return name;
     }
+	@Override
+	public String toString() {
+		return "Room [name=" + name + ", roomCells=" + roomCells + ", roomSymbol=" + roomSymbol + ", centerCell="
+				+ centerCell + ", labelCell=" + labelCell + "]";
+	}
+    
+    
 
 
 }

@@ -17,7 +17,17 @@ public class BoardCell {
     boolean isLabel;
     DoorDirection doorDirection;
 	
-	public void setDoorDirection(DoorDirection direction) {
+    public BoardCell(int row, int col){
+    	this.col = row;
+    	this.row = col;
+
+    }
+    public BoardCell(){
+    	row = 0;
+    	col = 0;
+    }
+    
+    public void setDoorDirection(DoorDirection direction) {
 		doorDirection = direction;
 	}
 	public DoorDirection getDoorDirection() {
@@ -26,11 +36,7 @@ public class BoardCell {
 	
 	
 	
-    public BoardCell(int row, int col){
-    	this.col = row;
-    	this.row = col;
-
-    }
+    
     
     public void addAdjacency(BoardCell cell) {
     	adjList.add(cell);

@@ -21,6 +21,7 @@ public class Board {
 	private String txtConfig;
 	private ArrayList<String> boardCells = new ArrayList();
 	private Map<Character,Room> roomsMap = new HashMap();
+	private Map<Integer,Integer> test = new HashMap();
 	/*
 	 * variable and methods used for singleton pattern
 	 */
@@ -86,11 +87,13 @@ public class Board {
 		while(inCsv.hasNextLine()){
 			int x = 0;
 			line = inCsv.nextLine().split(",");
+			System.out.println("hi");
 			for (String cellText : line){
 				board[x][y].setInitial(cellText.charAt(0));
 				if(cellText.length() != 1) {
 					if(cellText.charAt(1)=='*') {
 						board[x][y].setRoomCenter(true);
+//						roomsMap.put(cellText.charAt(0),new Room("temp",cellText.charAt(0),board[x][y]));
 					}
 					if(cellText.charAt(1)=='#') {
 						board[x][y].setRoomLabel(true);
@@ -190,8 +193,8 @@ public class Board {
 			if(line[0] != "Room" || line[0] != "Space"){
 				throw new BadConfigFormatException("Not a space or room.");
 			}
-			System.out.println(line[2].charAt(0) + " " + line[1]);
-			roomsMap.put(line[2].charAt(0),new Room(line[1]));
+			BoardCell temp = new BoardCell();
+			roomsMap.put(line[2].charAt(0),new Room(line[1],line[2].charAt(0),temp));
 		}
 		inTxt.close();
 	}
