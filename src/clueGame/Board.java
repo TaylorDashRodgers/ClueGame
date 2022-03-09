@@ -35,16 +35,8 @@ public class Board {
 	/*
 	 * initialize the board (since we are using singleton pattern)
 	 */
-
-
-	public void initialize() {
-		FileReader csv = null;
-		try {
-			csv = new FileReader(csvConfig);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
+		FileReader csv = new FileReader(csvConfig);
 		Scanner inCsv = new Scanner(csv);
 		String[] line = null;
 		int row = 0;
@@ -89,32 +81,31 @@ public class Board {
 			line = inCsv.nextLine().split(",");
 			System.out.println("hi");
 			for (String cellText : line){
-				board[x][y].setInitial(cellText.charAt(0));
+				board[y][x].setInitial(cellText.charAt(0));
 				if(cellText.length() != 1) {
 					if(cellText.charAt(1)=='*') {
-						board[x][y].setRoomCenter(true);
-//						roomsMap.put(cellText.charAt(0),new Room("temp",cellText.charAt(0),board[x][y]));
+						board[y][x].setRoomCenter(true);
 					}
 					if(cellText.charAt(1)=='#') {
-						board[x][y].setRoomLabel(true);
+						board[y][x].setRoomLabel(true);
 					}
 					if(cellText.charAt(1)=='<' || cellText.charAt(1)=='^' || cellText.charAt(1)=='>' || cellText.charAt(1)=='v') {
-						board[x][y].setIsDoorway(true);
+						board[y][x].setIsDoorway(true);
 						if(cellText.charAt(1)=='<' ) {
-							board[x][y].setDoorDirection(DoorDirection.LEFT);
+							board[y][x].setDoorDirection(DoorDirection.LEFT);
 						}
 						if( cellText.charAt(1)=='^' ) {
-							board[x][y].setDoorDirection(DoorDirection.UP);
+							board[y][x].setDoorDirection(DoorDirection.UP);
 						}
 						if( cellText.charAt(1)=='>' ) {
-							board[x][y].setDoorDirection(DoorDirection.RIGHT);
+							board[y][x].setDoorDirection(DoorDirection.RIGHT);
 						}
 						if( cellText.charAt(1)=='v') {
-							board[x][y].setDoorDirection(DoorDirection.DOWN);
+							board[y][x].setDoorDirection(DoorDirection.DOWN);
 						}
 					}
 					else {
-						board[x][y].setSecretPassage(cellText.charAt(1));
+						board[y][x].setSecretPassage(cellText.charAt(1));
 					}
 				}
 				x =+1;
@@ -122,6 +113,22 @@ public class Board {
 			y=+1;
 		}
 		inCsv.close();
+	}
+
+	public void initialize() throws FileNotFoundException {
+		try {
+			loadSetupConfig();
+		}catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			loadLayoutConfig();
+		}catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void setConfigFiles(String csv, String txt){
@@ -193,8 +200,7 @@ public class Board {
 			if(line[0] != "Room" || line[0] != "Space"){
 				throw new BadConfigFormatException("Not a space or room.");
 			}
-			BoardCell temp = new BoardCell();
-			roomsMap.put(line[2].charAt(0),new Room(line[1],line[2].charAt(0),temp));
+			roomsMap.put(line[2].charAt(0),new Room(line[1],line[2].charAt(0)));
 		}
 		inTxt.close();
 	}
