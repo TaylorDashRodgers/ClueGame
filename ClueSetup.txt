@@ -1,0 +1,13 @@
+// Rooms and room cards
+Room, Kitchen, K
+Room, Bedroom, B
+Room, Theatre, T
+Room, Hot tub, H
+Room, Gym, G
+Room, Bar, R
+Room, Closet, C
+Room, Office, O
+Room, Bathroom, P
+// other spaces on board
+Space, Unused, X
+Space, Walkway, W
