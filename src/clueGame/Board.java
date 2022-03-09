@@ -15,113 +15,128 @@ public class Board {
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-    private int COLS;
-    private int ROWS;
+	private int COLS;
+	private int ROWS;
 	private String csvConfig;
 	private String txtConfig;
 	private ArrayList<String> boardCells = new ArrayList();
-	private Map<String,String> rooms = new HashMap();
-	    /*
-       	* variable and methods used for singleton pattern
-       	*/
-       	private static Board theInstance = new Board();
-       	// constructor is private to ensure only one can be created
-      
-       	// this method returns the only Board
-       	public static Board getInstance() {
-            return theInstance;
-       	}
-       	/*
-        * initialize the board (since we are using singleton pattern)
-        */
-       	
-     
-       	public void initialize() {
+	private Map<Character,Room> rooms = new HashMap();
+	/*
+	 * variable and methods used for singleton pattern
+	 */
+	private static Board theInstance = new Board();
+	// constructor is private to ensure only one can be created
 
-       		FileReader csv = null;
-			try {
-				csv = new FileReader(csvConfig);
-			} catch (FileNotFoundException e) {
-				System.out.println(e);
-				e.printStackTrace();
+	// this method returns the only Board
+	public static Board getInstance() {
+		return theInstance;
+	}
+	/*
+	 * initialize the board (since we are using singleton pattern)
+	 */
+
+
+	public void initialize() {
+		FileReader csv = null;
+		try {
+			csv = new FileReader(csvConfig);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scanner inCsv = new Scanner(csv);
+		String[] line = null;
+		int row = 0;
+		int col = 0 ;
+		while(inCsv.hasNextLine()){
+			line = inCsv.nextLine().split(",");
+			row = row + 1;
+		}
+		//initialize board
+		COLS = line.length;
+		ROWS = row;
+
+		board = new BoardCell[ROWS][COLS];
+		for (int i = 0 ; i < ROWS ; i++ ) {
+			for(int j = 0; j < COLS; j++) {
+				BoardCell temp = new BoardCell(i,j);
+				board[i][j] = temp;
 			}
-       		Scanner inCsv = new Scanner(csv);
-       		String[] line = null;
-       		int row = 0;
-       		int col = 0 ;
-       		while(inCsv.hasNextLine()){
-       			line = inCsv.nextLine().split(",");
-       			row =+ 1;
-       		}
-       		//initialize board
-       		COLS = line.length;
-       		ROWS = row;
+		}
+		for (int i = 0 ; i < ROWS ; i++ ) {
+			for(int j = 0; j < COLS; j++) {
 
-       		board = new BoardCell[COLS][ROWS];
-       		for (int i = 0 ; i < COLS ; i++ ) {
-       			for(int j = 0; j < ROWS; j++) {
-       				BoardCell temp = new BoardCell(i,j);
-       				board[i][j] = temp;
-       			}
-       		}
-       		for (int i = 0 ; i < COLS ; i++ ) {
-       			for(int j = 0; j < ROWS; j++) {
+				if((i-1)>=0) {
+					board[i][j].addAdjacency(board[i-1][j]);
+				}
+				if((j-1)>=0) {
+					board[i][j].addAdjacency(board[i][j-1]);
+				}
+				if(j<(COLS-1)) {
+					board[i][j].addAdjacency(board[i][j+1]);
+				}
+				if(i<(ROWS-1)) {
+					board[i][j].addAdjacency(board[i+1][j]);
+				}	
 
-       				if((i-1)>=0) {
-       					board[i][j].addAdjacency(board[i-1][j]);
-       				}
-       				if((j-1)>=0) {
-       					board[i][j].addAdjacency(board[i][j-1]);
-       				}
-       				if(j<(ROWS-1)) {
-       					board[i][j].addAdjacency(board[i][j+1]);
-       				}
-       				if(i<(COLS-1)) {
-       					board[i][j].addAdjacency(board[i+1][j]);
-       				}	
+			}
+		}
 
-       			}
-       		}
-
-			int y = 0;
-			while(inCsv.hasNextLine()){
-				int x = 0;
-				line = inCsv.nextLine().split(",");
-				for (String cellText : line){
-					board[x][y].setInitial(cellText.charAt(0));
-					if(cellText.length() != 1) {
-						if(cellText.charAt(1)=='*') {
-							board[x][y].setRoomCenter(true);
+		int y = 0;
+		while(inCsv.hasNextLine()){
+			int x = 0;
+			line = inCsv.nextLine().split(",");
+			for (String cellText : line){
+				board[x][y].setInitial(cellText.charAt(0));
+				if(cellText.length() != 1) {
+					if(cellText.charAt(1)=='*') {
+						board[x][y].setRoomCenter(true);
+					}
+					if(cellText.charAt(1)=='#') {
+						board[x][y].setRoomLabel(true);
+					}
+					if(cellText.charAt(1)=='<' || cellText.charAt(1)=='^' || cellText.charAt(1)=='>' || cellText.charAt(1)=='v') {
+						board[x][y].setIsDoorway(true);
+						if(cellText.charAt(1)=='<' ) {
+							board[x][y].setDoorDirection(DoorDirection.LEFT);
 						}
-						if(cellText.charAt(1)=='#') {
-							board[x][y].setRoomLabel(true);
+						if( cellText.charAt(1)=='^' ) {
+							board[x][y].setDoorDirection(DoorDirection.UP);
 						}
-						if(cellText.charAt(1)=='<' || cellText.charAt(1)=='^' || cellText.charAt(1)=='>' || cellText.charAt(1)=='v') {
-							board[x][y].setIsDoorway(true);
+						if( cellText.charAt(1)=='>' ) {
+							board[x][y].setDoorDirection(DoorDirection.RIGHT);
+						}
+						if( cellText.charAt(1)=='v') {
+							board[x][y].setDoorDirection(DoorDirection.DOWN);
 						}
 					}
+					else {
+						board[x][y].setSecretPassage(cellText.charAt(1));
+					}
 				}
+				x =+1;
 			}
-       }
+			y=+1;
+		}
+		inCsv.close();
+	}
 
-	   public void setConfigFiles(String csv, String txt){
-		   this.csvConfig = csv;
-		   System.out.println(csv);
-		   this.txtConfig = txt;
-		   System.out.println(txt);
-	   }
-	
+	public void setConfigFiles(String csv, String txt){
+		this.csvConfig = csv;
+		this.txtConfig = txt;
+	}
 
 
-	
+
+
 	public BoardCell getCell(int x, int y) {
 		return board[x][y];
 	}
-	
+
 	public Set<BoardCell> getTargets(){
 		return targets;
 	}
-	
+
 	public void calcTargets(BoardCell startCell,int pathLength) {
 		visited.add(startCell);
 		for(BoardCell cell : startCell.getAdjList()) {
@@ -144,37 +159,40 @@ public class Board {
 
 	}
 	public Room getRoom(char c) {
-		Room temp = new Room();
-		return temp;
+		return rooms.get(c);
 	}
-	
+
 	public int getNumRows() {
 		return ROWS;
 	}
-	
+
 	public int getNumColumns() {
 		return COLS;
 	}
-	
+
 	public Room getRoom(BoardCell cell) {
-		Room temp = new Room();
-		return temp;
+		return rooms.get(cell.getInitial());
 	}
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		//read in txt
-	   	FileReader txt = null;
-		txt = new FileReader(txtConfig);
+		FileReader txt = new FileReader(txtConfig);
 		Scanner inTxt = new Scanner(txt);
 		String[] line;
-		while(inTxt.hasNextLine()) {	
-		line = inTxt.nextLine().split(",");
-		rooms.put(line[2],line[1]);
+		while(inTxt.hasNextLine()) {
+			String fullLine = inTxt.nextLine();
+			// Checks if the line is a comment and skips if it is.
+			if(fullLine.charAt(0)=='/'){
+				continue;
+			}
+			// splits the line up into useful chunks.
+			line = fullLine.split(",");
+			if(line[0] != "Room" || line[0] != "Space"){
+				throw new BadConfigFormatException("Not a space or room.");
+			}
+			System.out.println(line[2].charAt(0) + " " + line[1]);
+			rooms.put(line[2].charAt(0),new Room(line[1]));
 		}
-		Set<String> keySet = rooms.keySet();
-		System.out.println();
-		for (String key : keySet) {
-			System.out.println(key + " , " + rooms.get(key));
-		}
+		inTxt.close();
 	}
 }

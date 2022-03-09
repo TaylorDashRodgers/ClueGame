@@ -6,14 +6,17 @@ import java.util.Set;
 public class Room {
     private String name;
     private Set<BoardCell> roomCells = new HashSet<BoardCell>();
-    private String symbol;
+    private char symbol;
     private BoardCell centerCell;
     private BoardCell labelCell;
     
-    public String getSymbol() {
+    public Room(String name) {
+    	this.name = name;
+    }
+    public char getSymbol() {
     	return symbol;
     }
-    public void setSymbol(String symbol) {
+    public void setSymbol(char symbol) {
     	this.symbol = symbol;
     }
     
