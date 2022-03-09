@@ -36,53 +36,70 @@ public class Board {
         */
        	
      
-       	public void initialize() throws FileNotFoundException {
-    	   
-    		FileReader csv = new FileReader(csvConfig);  //if fileName isn't valid, exception will get thrown to processFiles()
-    		Scanner inCsv = new Scanner(csv);
-			String[] line = null;
-			int row = 0;
-			int col = 0 ;
-			while(inCsv.hasNextLine()){
-				line = inCsv.nextLine().split(",");
-				row =+ 1;
-			}
-		   	//initialize board
-		   	COLS = line.length;
-		   	ROWS = row;
+       	public void initialize() {
 
-			board = new BoardCell[COLS][ROWS];
-		for (int i = 0 ; i < COLS ; i++ ) {
-			for(int j = 0; j < ROWS; j++) {
-				BoardCell temp = new BoardCell(i,j);
-				board[i][j] = temp;
+       		FileReader csv = null;
+			try {
+				csv = new FileReader(csvConfig);
+			} catch (FileNotFoundException e) {
+				System.out.println(e);
+				e.printStackTrace();
 			}
-		}
-		for (int i = 0 ; i < COLS ; i++ ) {
-			for(int j = 0; j < ROWS; j++) {
-				
-				if((i-1)>=0) {
-					board[i][j].addAdjacency(board[i-1][j]);
-				}
-				if((j-1)>=0) {
-					board[i][j].addAdjacency(board[i][j-1]);
-				}
-				if(j<(ROWS-1)) {
-					board[i][j].addAdjacency(board[i][j+1]);
-				}
-				if(i<(COLS-1)) {
-					board[i][j].addAdjacency(board[i+1][j]);
-				}	
-				
-			}
-		}
+       		Scanner inCsv = new Scanner(csv);
+       		String[] line = null;
+       		int row = 0;
+       		int col = 0 ;
+       		while(inCsv.hasNextLine()){
+       			line = inCsv.nextLine().split(",");
+       			row =+ 1;
+       		}
+       		//initialize board
+       		COLS = line.length;
+       		ROWS = row;
+
+       		board = new BoardCell[COLS][ROWS];
+       		for (int i = 0 ; i < COLS ; i++ ) {
+       			for(int j = 0; j < ROWS; j++) {
+       				BoardCell temp = new BoardCell(i,j);
+       				board[i][j] = temp;
+       			}
+       		}
+       		for (int i = 0 ; i < COLS ; i++ ) {
+       			for(int j = 0; j < ROWS; j++) {
+
+       				if((i-1)>=0) {
+       					board[i][j].addAdjacency(board[i-1][j]);
+       				}
+       				if((j-1)>=0) {
+       					board[i][j].addAdjacency(board[i][j-1]);
+       				}
+       				if(j<(ROWS-1)) {
+       					board[i][j].addAdjacency(board[i][j+1]);
+       				}
+       				if(i<(COLS-1)) {
+       					board[i][j].addAdjacency(board[i+1][j]);
+       				}	
+
+       			}
+       		}
 
 			int y = 0;
 			while(inCsv.hasNextLine()){
 				int x = 0;
 				line = inCsv.nextLine().split(",");
-				for (String cell : line){
-					
+				for (String cellText : line){
+					board[x][y].setInitial(cellText.charAt(0));
+					if(cellText.length() != 1) {
+						if(cellText.charAt(1)=='*') {
+							board[x][y].setRoomCenter(true);
+						}
+						if(cellText.charAt(1)=='#') {
+							board[x][y].setRoomLabel(true);
+						}
+						if(cellText.charAt(1)=='<' || cellText.charAt(1)=='^' || cellText.charAt(1)=='>' || cellText.charAt(1)=='v') {
+							board[x][y].setIsDoorway(true);
+						}
+					}
 				}
 			}
        }
@@ -144,15 +161,10 @@ public class Board {
 		return temp;
 	}
 
-	public void loadSetupConfig() throws BadConfigFormatException {
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		//read in txt
 	   	FileReader txt = null;
-		try {
-			txt = new FileReader(txtConfig);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		txt = new FileReader(txtConfig);
 		Scanner inTxt = new Scanner(txt);
 		String[] line;
 		while(inTxt.hasNextLine()) {	
@@ -164,13 +176,5 @@ public class Board {
 		for (String key : keySet) {
 			System.out.println(key + " , " + rooms.get(key));
 		}
-		try {
-			txt.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-	
-	
 }

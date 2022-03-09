@@ -1,7 +1,7 @@
 package clueGame;
 
 public enum DoorDirection {
-	UP("W^"), LEFT("W<"), RIGHT("W>"), DOWN("Wv");
+	UP("^"), LEFT("<"), RIGHT(">"), DOWN("v");
 	private String value;
 	
 	DoorDirection (String aValue){
