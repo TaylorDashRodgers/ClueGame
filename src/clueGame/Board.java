@@ -195,4 +195,9 @@ public class Board {
 		}
 		inTxt.close();
 	}
+
+
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return getCell(i,j).getAdjList();
+	}
 }
