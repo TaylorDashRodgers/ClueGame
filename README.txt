@@ -1,1 +1,0 @@
-Authors: Andre Reynolds, Taylor Rodgers, Section OL
