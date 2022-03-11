@@ -19,8 +19,8 @@ public class Board {
 	private int ROWS;
 	private String csvConfig;
 	private String txtConfig;
-	private ArrayList<String> boardCells = new ArrayList();
-	private Map<Character,Room> roomsMap = new HashMap();
+	private ArrayList<String> boardCells = new ArrayList<String>();
+	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
 	/*
 	 * variable and methods used for singleton pattern
 	 */
@@ -149,8 +149,8 @@ public class Board {
 
 	// Sets our Config Files.
 	public void setConfigFiles(String csv, String txt){
-		this.csvConfig = csv;
-		this.txtConfig = txt;
+		this.csvConfig = "data/" + csv;
+		this.txtConfig = "data/" + txt;
 	}
 
 	public BoardCell getCell(int row, int col) {
