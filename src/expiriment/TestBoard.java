@@ -63,6 +63,7 @@ public class TestBoard {
 						calcTargets(cell,pathLength-1);
 					}
 				}
+				//visited.remove(cell);
 			}
 			visited.remove(cell);
 		}

@@ -9,19 +9,19 @@ public class Room {
 	// Variable Declarations
     private String name;
     private Set<BoardCell> roomCells = new HashSet<BoardCell>();
-    private char roomSymbol;
+    private char symbol;
     private BoardCell centerCell;
     private BoardCell labelCell;
     
    // Parameterized Constructor
     public Room(String name, char roomSymbol) {
-    	this.roomSymbol = roomSymbol;
+    	this.symbol = roomSymbol;
     	this.name = name;
     }
     
     // Getters
     public char getSymbol() {
-    	return roomSymbol;
+    	return symbol;
     }
     public BoardCell getCenterCell() {
     	return centerCell;
@@ -35,7 +35,7 @@ public class Room {
     
     // Setters
     public void setSymbol(char symbol) {
-    	this.roomSymbol = symbol;
+    	this.symbol = symbol;
     }
     public void setName(String name) {
     	this.name = name;

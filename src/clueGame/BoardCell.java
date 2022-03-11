@@ -22,12 +22,14 @@ public class BoardCell {
 
 	// Default and Parameterized constructor 
 	public BoardCell(int row, int col){
-		this.col = row;
-		this.row = col;
+		this.row = row;
+		this.col = col;
+		secretPassage = '0';
 	}
 	public BoardCell(){
 		row = 0;
 		col = 0;
+		secretPassage = '0';
 	}
 
 
