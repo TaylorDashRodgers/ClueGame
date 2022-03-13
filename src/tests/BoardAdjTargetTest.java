@@ -65,22 +65,21 @@ public class BoardAdjTargetTest {
 	@Test
 	public void testAdjacenciesRooms()
 	{
-		Set<BoardCell> testList = board.getAdjList(5, 5);
+		Set<BoardCell> testList = board.getAdjList(3, 5);
+		assertEquals(1, testList.size());
+		assertTrue(testList.contains(board.getCell(5, 5)));
+		
+		testList = board.getAdjList(2, 1);
+		assertEquals(2, testList.size());
+		assertTrue(testList.contains(board.getCell(6, 1)));
+		assertTrue(testList.contains(board.getCell(22, 17)));
+		
+
+		testList = board.getAdjList(5, 21);
 		assertEquals(3, testList.size());
-		assertTrue(testList.contains(board.getCell(3, 5)));
-		assertTrue(testList.contains(board.getCell(6, 5)));
-		assertTrue(testList.contains(board.getCell(6, 4)));
-		
-		testList = board.getAdjList(11, 7);
-		assertEquals(4, testList.size());
-		assertTrue(testList.contains(board.getCell(13, 3)));
-		
-		// one more room, the kitchen
-		testList = board.getAdjList(14, 17);
-		assertEquals(4, testList.size());
-		assertTrue(testList.contains(board.getCell(15, 21)));
-		assertTrue(testList.contains(board.getCell(15, 17)));
-		assertTrue(testList.contains(board.getCell(13, 17)));
+		assertTrue(testList.contains(board.getCell(20, 8)));
+		assertTrue(testList.contains(board.getCell(10, 21)));
+		assertTrue(testList.contains(board.getCell(4, 17)));
 	}
 
 	@Test
@@ -90,7 +89,7 @@ public class BoardAdjTargetTest {
 		assertEquals(3, testList.size());
 		assertTrue(testList.contains(board.getCell(3, 5)));
 		assertTrue(testList.contains(board.getCell(6, 5)));
-		assertTrue(testList.contains(board.getCell(6, 4)));
+		assertTrue(testList.contains(board.getCell(5, 4)));
 		
 		testList = board.getAdjList(11, 7);
 		assertEquals(4, testList.size());
