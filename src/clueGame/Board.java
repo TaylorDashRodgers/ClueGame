@@ -58,24 +58,6 @@ public class Board {
 			}
 		}
 
-//		for (int i = 0 ; i < ROWS ; i++ ) {
-//			for(int j = 0; j < COLS; j++) { 
-//				if((i-1)>=0) {
-//					board[i][j].addAdjacency(board[i-1][j]);
-//				}
-//				if((j-1)>=0) {
-//					board[i][j].addAdjacency(board[i][j-1]);
-//				}
-//				if(j<(COLS-1)) {
-//					board[i][j].addAdjacency(board[i][j+1]);
-//				}
-//				if(i<(ROWS-1)) {
-//					board[i][j].addAdjacency(board[i+1][j]);
-//				}	
-//
-//			}
-//		}
-
 		// Reads through the file the second time now that we have rows and cols.
 		FileReader csv2 = new FileReader(csvConfig);
 		Scanner inCsv2 = new Scanner(csv2);
@@ -257,27 +239,33 @@ public class Board {
 		return targets;
 	}
 
+	public void calcTargets(BoardCell startCell,int pathLength){
+		visited.clear();
+		targets.clear();
+		calcTarget(startCell,pathLength);
+	}
 	// Recursively looks at adjList, path length, and visited list to determine the possible cells to move to
-	public void calcTargets(BoardCell startCell,int pathLength) {
-		//visited.add(startCell);
+	private void calcTarget(BoardCell startCell,int pathLength) {
+		visited.add(startCell);
 		for(BoardCell cell : startCell.getAdjList()) {
 			if(!visited.contains(cell)) {
 				visited.add(cell);
-				if(pathLength == 1 || cell.isRoom()) {
-					if(!cell.isOccupied()) {
+				if(pathLength == 1) {
+					if(!cell.isOccupied()|| cell.isRoom()) {
 						targets.add(cell);
 					}	
 				}
+				else if(cell.isRoom()){
+					targets.add(cell);
+				}
 				else {
 					if(!cell.isOccupied()) {
-						calcTargets(cell,pathLength-1);
+						calcTarget(cell,pathLength-1);
 					}
 				}
 				visited.remove(cell);
 			}
-			//visited.remove(cell);
 		}
-		//visited.remove(startCell);
 	}
 
 	public Room getRoom(char c) {

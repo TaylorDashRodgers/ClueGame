@@ -11,7 +11,7 @@ public class BoardCell {
 	private int row;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
 	private boolean isDoor;
-	private char Initial;
+	private char initial;
 	private char secretPassage;
 	private boolean occupied;
 	private boolean isRoom;
@@ -53,7 +53,7 @@ public class BoardCell {
 		isLabel = bool;
 	}
 	public void setInitial(char i) {
-		Initial = i;
+		initial = i;
 	}
 	public void setRoomCenter(boolean bool) {
 		isRoomCenter = bool;
@@ -83,7 +83,7 @@ public class BoardCell {
 		return secretPassage;
 	}
 	public char getInitial() {
-		return Initial;
+		return initial;
 	}
 
 
