@@ -9,7 +9,7 @@ public class BoardCell {
 	// Variable Declarations 
 	private int col, row;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
-	private char Initial, secretPassage;
+	private char initial, secretPassage;
 	private boolean isRoom, isRoomCenter, isLabel, occupied, isDoor;
 	private DoorDirection doorDirection;
 
@@ -45,7 +45,7 @@ public class BoardCell {
 		isLabel = bool;
 	}
 	public void setInitial(char i) {
-		Initial = i;
+		initial = i;
 	}
 	public void setRoomCenter(boolean bool) {
 		isRoomCenter = bool;
@@ -75,7 +75,7 @@ public class BoardCell {
 		return secretPassage;
 	}
 	public char getInitial() {
-		return Initial;
+		return initial;
 	}
 
 
