@@ -7,16 +7,10 @@ import java.util.Set;
 public class BoardCell {
 
 	// Variable Declarations 
-	private int col;
-	private int row;
+	private int col, row;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
-	private boolean isDoor;
-	private char Initial;
-	private char secretPassage;
-	private boolean occupied;
-	private boolean isRoom;
-	private boolean isRoomCenter;
-	private boolean isLabel;
+	private char Initial, secretPassage;
+	private boolean isRoom, isRoomCenter, isLabel, occupied, isDoor;
 	private DoorDirection doorDirection;
 
 
