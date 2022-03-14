@@ -56,23 +56,6 @@ public class Board {
 			}
 		}
 
-		for (int i = 0 ; i < rows ; i++ ) {
-			for(int j = 0; j < columns; j++) { 
-				if((i-1)>=0) {
-					board[i][j].addAdjacency(board[i-1][j]);
-				}
-				if((j-1)>=0) {
-					board[i][j].addAdjacency(board[i][j-1]);
-				}
-				if(j<(columns-1)) {
-					board[i][j].addAdjacency(board[i][j+1]);
-				}
-				if(i<(rows-1)) {
-					board[i][j].addAdjacency(board[i+1][j]);
-				}	
-
-			}
-		}
 
 		// Reads through the file the second time now that we have rows and cols.
 		FileReader csv2 = new FileReader(csvConfig);
@@ -117,7 +100,7 @@ public class Board {
 						}
 					}
 					// Last check meaning it is a secret passage.
-					else {
+					 else if (cellText.charAt(1)!='#' && cellText.charAt(1)!='*'){
 						board[row2][col2].setSecretPassage(cellText.charAt(1));
 					}
 				}
@@ -126,6 +109,102 @@ public class Board {
 			row2 = row2 + 1;
 		}
 		inCsv2.close();
+		
+		for (int i = 0 ; i < rows ; i++ ) {
+			for(int j = 0; j < columns; j++) {
+				
+				// if secret passage, add Centercell linked with secret passage to room center's adj list
+				if(board[i][j].getSecretPassage()!= '0'){
+					getRoom(board[i][j].getInitial()).getCenterCell().addAdjacency(getRoom(board[i][j].getSecretPassage()).getCenterCell());
+				} 
+				// if currently a walkway only add moves that are also walkways
+				if(board[i][j].getInitial()== 'W'){
+					if((i-1)>=0 && board[i-1][j].getInitial()== 'W') {
+						board[i][j].addAdjacency(board[i-1][j]);
+					}
+					if((j-1)>=0 && board[i][j-1].getInitial()== 'W') {
+						board[i][j].addAdjacency(board[i][j-1]);
+					}
+					if(j<(columns-1) && board[i][j+1].getInitial()== 'W') {
+						board[i][j].addAdjacency(board[i][j+1]);
+					}
+					if(i<(rows-1) && board[i+1][j].getInitial()== 'W') {
+						board[i][j].addAdjacency(board[i+1][j]);
+					}
+				}
+
+				if(board[i][j].isDoorway()) {
+					// if door is facing left
+					if(board[i][j].getDoorDirection() == DoorDirection.LEFT) {
+						if((i-1)>=0 && board[i-1][j].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i-1][j]);
+						}
+						
+						board[i][j].addAdjacency(getRoom(board[i][j-1].getInitial()).getCenterCell());
+						getRoom(board[i][j-1].getInitial()).getCenterCell().addAdjacency(board[i][j]);
+
+						if(j<(columns-1) && board[i][j+1].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i][j+1]);
+						}
+						if(i<(rows-1) && board[i+1][j].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i+1][j]);
+						}
+					}
+
+					if(board[i][j].getDoorDirection() == DoorDirection.UP) {
+						
+						board[i][j].addAdjacency(getRoom(board[i-1][j].getInitial()).getCenterCell());
+						getRoom(board[i-1][j].getInitial()).getCenterCell().addAdjacency(board[i][j]);
+
+						if((j-1)>=0 && board[i][j-1].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i][j-1]);
+						}
+						if(j<(columns-1) && board[i][j+1].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i][j+1]);
+						}
+						if(i<(rows-1) && board[i+1][j].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i+1][j]);
+						}
+					}
+
+					if(board[i][j].getDoorDirection() == DoorDirection.RIGHT) {
+
+						if((i-1)>=0 && board[i-1][j].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i-1][j]);
+						}
+
+						if((j-1)>=0 && board[i][j-1].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i][j-1]);
+						}
+
+						board[i][j].addAdjacency(getRoom(board[i][j+1].getInitial()).getCenterCell());
+						getRoom(board[i][j+1].getInitial()).getCenterCell().addAdjacency(board[i][j]);
+
+						if(i<(rows-1) && board[i+1][j].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i+1][j]);
+						}
+					}
+
+					if(board[i][j].getDoorDirection() == DoorDirection.DOWN) {
+
+						if((i-1)>=0 && board[i-1][j].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i-1][j]);
+						}
+
+						if((j-1)>=0 && board[i][j-1].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i][j-1]);
+						}
+
+						if(j<(columns-1) && board[i][j+1].getInitial()== 'W') {
+							board[i][j].addAdjacency(board[i][j+1]);
+						}
+
+						board[i][j].addAdjacency(getRoom(board[i+1][j].getInitial()).getCenterCell());
+						getRoom(board[i+1][j].getInitial()).getCenterCell().addAdjacency(board[i][j]);
+					}
+				}
+			}
+		}
 	}
 
 	public void initialize()  {
@@ -159,26 +238,33 @@ public class Board {
 		return targets;
 	}
 
+	public void calcTargets(BoardCell startCell,int pathLength){
+		visited.clear();
+		targets.clear();
+		calcTarget(startCell,pathLength);
+	}
 	// Recursively looks at adjList, path length, and visited list to determine the possible cells to move to
-	public void calcTargets(BoardCell startCell,int pathLength) {
+	private void calcTarget(BoardCell startCell,int pathLength) {
 		visited.add(startCell);
 		for(BoardCell cell : startCell.getAdjList()) {
 			if(!visited.contains(cell)) {
 				visited.add(cell);
-				if(pathLength == 1 || cell.isRoom()) {
-					if(!cell.isOccupied()) {
+				if(pathLength == 1) {
+					if(!cell.isOccupied()|| cell.isRoom()) {
 						targets.add(cell);
 					}	
 				}
+				else if(cell.isRoom()){
+					targets.add(cell);
+				}
 				else {
 					if(!cell.isOccupied()) {
-						calcTargets(cell,pathLength-1);
+						calcTarget(cell,pathLength-1);
 					}
 				}
+				visited.remove(cell);
 			}
-			visited.remove(cell);
 		}
-		visited.remove(startCell);
 	}
 
 	public Room getRoom(char c) {

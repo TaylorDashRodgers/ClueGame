@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
+import javax.swing.CellEditor;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
