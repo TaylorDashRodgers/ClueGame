@@ -15,10 +15,8 @@ public class Board {
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private int COLS;
-	private int ROWS;
-	private String csvConfig;
-	private String txtConfig;
+	private int COLS, ROWS;
+	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
 	/*
