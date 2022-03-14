@@ -10,7 +10,7 @@ public class BoardCell {
 	private int col, row;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
 	private char initial, secretPassage;
-	private boolean isRoom, isRoomCenter, isLabel, occupied, isDoor;
+	private boolean isRoom, isRoomCenter, isLabel, isOccupied, isDoor;
 	private DoorDirection doorDirection;
 
 
@@ -30,7 +30,7 @@ public class BoardCell {
 		doorDirection = direction;
 	}
 	public void setOccupied(boolean bool) {
-		this.occupied = bool;
+		this.isOccupied = bool;
 	}
 	public void setIsRoom(boolean bool) {
 		this.isRoom = bool;
@@ -81,7 +81,7 @@ public class BoardCell {
 
 	// Is-ers
 	public boolean isOccupied() {
-		return occupied;
+		return isOccupied;
 	}
 	public boolean isRoom() {
 		return isRoom;
