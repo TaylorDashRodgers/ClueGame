@@ -10,8 +10,8 @@ public class Room {
     private String name;
     private Set<BoardCell> roomCells = new HashSet<BoardCell>();
     private char roomSymbol;
-    private BoardCell centerCell;
-    private BoardCell labelCell;
+    private BoardCell centerCell, labelCell;
+ 
     
    // Parameterized Constructor
     public Room(String name, char roomSymbol) {
