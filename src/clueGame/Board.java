@@ -15,7 +15,7 @@ public class Board {
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private int columns, ROWS;
+	private int columns, rows;
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
@@ -46,17 +46,17 @@ public class Board {
 
 		//initialize board
 		columns = line.length;
-		ROWS = row;
+		rows = row;
 		inCsv.close();
-		board = new BoardCell[ROWS][columns];
-		for (int i = 0 ; i < ROWS ; i++ ) {
+		board = new BoardCell[rows][columns];
+		for (int i = 0 ; i < rows ; i++ ) {
 			for(int j = 0; j < columns; j++) {
 				BoardCell temp = new BoardCell(i,j);
 				board[i][j] = temp;
 			}
 		}
 
-		for (int i = 0 ; i < ROWS ; i++ ) {
+		for (int i = 0 ; i < rows ; i++ ) {
 			for(int j = 0; j < columns; j++) { 
 				if((i-1)>=0) {
 					board[i][j].addAdjacency(board[i-1][j]);
@@ -67,7 +67,7 @@ public class Board {
 				if(j<(columns-1)) {
 					board[i][j].addAdjacency(board[i][j+1]);
 				}
-				if(i<(ROWS-1)) {
+				if(i<(rows-1)) {
 					board[i][j].addAdjacency(board[i+1][j]);
 				}	
 
@@ -186,7 +186,7 @@ public class Board {
 	}
 
 	public int getNumRows() {
-		return ROWS;
+		return rows;
 	}
 
 	public int getNumColumns() {
