@@ -216,19 +216,30 @@ public class Board {
 	public void deal() {
 		//random three for solution
 		ArrayList<Card> tempDeck = deck;
+		int tempDeckSize = tempDeck.size();
 		Random rand = new Random();
-		for(int i = 0; i < 3; i ++){
-			int randIndex = rand.nextInt(deck.size());
-			Card randomSolutionCard = deck.get(randIndex);
-			if(randomSolutionCard.getCardType() == CardType.PERSON){
-				solution.setPerson(randomSolutionCard);
-				tempDeck.remove()
+		while(tempDeck.size() != tempDeckSize - 3){
+			int randIndex = rand.nextInt(tempDeck.size());
+			while(tempDeck.size() == tempDeckSize){
+				Card randomSolutionCard = tempDeck.get(randIndex);
+				if(randomSolutionCard.getCardType() == CardType.PERSON){
+					solution.setPerson(randomSolutionCard);
+					tempDeck.remove(randIndex);
+				}
 			}
-			if(randomSolutionCard.getCardType() == CardType.ROOM){
-				solution.setRoom(randomSolutionCard);
+			while(tempDeck.size() == tempDeckSize - 1){
+				Card randomSolutionCard = tempDeck.get(randIndex);
+				if(randomSolutionCard.getCardType() == CardType.ROOM){
+					solution.setRoom(randomSolutionCard);
+					tempDeck.remove(randIndex);
+				}
 			}
-			if(randomSolutionCard.getCardType() == CardType.WEAPON){
-				solution.setWeapon(randomSolutionCard);
+			while(tempDeck.size() == tempDeckSize - 2){
+				Card randomSolutionCard = tempDeck.get(randIndex);
+				if(randomSolutionCard.getCardType() == CardType.WEAPON){
+					solution.setWeapon(randomSolutionCard);
+					tempDeck.remove(randIndex);
+				}
 			}
 		}
 		//random for rest of players
@@ -242,6 +253,14 @@ public class Board {
 				tempDeck.remove(randIndex);
 			}
 		}
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+	
+	public ArrayList<Card> getDeck(){
+		return deck;
 	}
 
 	public void initialize()  {
@@ -264,6 +283,14 @@ public class Board {
 		players.add(player1);
 		ComputerPlayer player2 = new ComputerPlayer();
 		players.add(player2);
+		ComputerPlayer player3 = new ComputerPlayer("default", "default", 5, 20);
+		players.add(player3);
+		ComputerPlayer player4 = new ComputerPlayer();
+		players.add(player4);
+		ComputerPlayer player5 = new ComputerPlayer();
+		players.add(player5);
+		HumanPlayer player6 = new HumanPlayer();
+		players.add(player6);
 
 		
 		
@@ -341,7 +368,7 @@ public class Board {
 			}
 			// Splits the line up into useful chunks.
 			line = fullLine.split(", ");
-			if(!line[0].equals("Room") && !line[0].equals("Space")){
+			if(!line[0].equals("Room") && !line[0].equals("Space") && !line[0].equals("Person") && !line[0].equals("Weapon")){
 				throw new BadConfigFormatException("Not a space or room.");
 			}
 			
