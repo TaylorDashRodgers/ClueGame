@@ -7,9 +7,18 @@ abstract public class Player {
 	private String color;
 	private int row, column;
 	private ArrayList<Card> hand = new ArrayList<Card>();
+	private boolean isHuman;
 	
-	void updtateHand(Card card) {
+	public boolean isHuman() {
+		return isHuman;
+	}
+	
+	public void updtateHand(Card card) {
 		hand.add(card);
+	}
+	
+	public ArrayList<Card> getHand(){
+		return hand;
 	}
 
 	public String getName() {
@@ -43,13 +52,15 @@ abstract public class Player {
 	public void setColumn(int column) {
 		this.column = column;
 	}
+	
 
-	public Player(String name, String color, int row, int column) {
+	public Player(String name, String color, int row, int column, boolean isHuman) {
 		super();
 		this.name = name;
 		this.color = color;
 		this.row = row;
 		this.column = column;
+		this.isHuman = isHuman;
 	}
 	public Player() {
 		super();
@@ -57,6 +68,7 @@ abstract public class Player {
 		this.color = "default";
 		this.row = 0;
 		this.column = 0;
+		this.isHuman = false;
 	}
 	
 }

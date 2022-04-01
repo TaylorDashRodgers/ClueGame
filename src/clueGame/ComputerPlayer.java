@@ -2,8 +2,8 @@ package clueGame;
 
 public class ComputerPlayer extends Player {
 
-	public ComputerPlayer(String name, String color, int row, int column) {
-		super(name, color, row, column);
+	public ComputerPlayer(String name, String color, int row, int column, boolean isHuman) {
+		super(name, color, row, column, isHuman);
 		// TODO Auto-generated constructor stub
 	}
 	public ComputerPlayer() {

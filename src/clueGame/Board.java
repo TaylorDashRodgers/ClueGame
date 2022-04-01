@@ -23,7 +23,7 @@ public class Board {
 	//I think we need these not sure
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private Solution solution;
+	private Solution solution = new Solution();
 	/*
 	 * variable and methods used for singleton pattern
 	 */
@@ -215,27 +215,25 @@ public class Board {
 	
 	public void deal() {
 		//random three for solution
-		ArrayList<Card> tempDeck = deck;
+		ArrayList<Card> tempDeck = new ArrayList<Card>(deck);
 		int tempDeckSize = tempDeck.size();
 		Random rand = new Random();
 		while(tempDeck.size() != tempDeckSize - 3){
 			int randIndex = rand.nextInt(tempDeck.size());
-			while(tempDeck.size() == tempDeckSize){
-				Card randomSolutionCard = tempDeck.get(randIndex);
+			Card randomSolutionCard = tempDeck.get(randIndex);
+			if(tempDeck.size() == tempDeckSize){
 				if(randomSolutionCard.getCardType() == CardType.PERSON){
 					solution.setPerson(randomSolutionCard);
 					tempDeck.remove(randIndex);
 				}
 			}
-			while(tempDeck.size() == tempDeckSize - 1){
-				Card randomSolutionCard = tempDeck.get(randIndex);
+			if(tempDeck.size() == tempDeckSize - 1){
 				if(randomSolutionCard.getCardType() == CardType.ROOM){
 					solution.setRoom(randomSolutionCard);
 					tempDeck.remove(randIndex);
 				}
 			}
-			while(tempDeck.size() == tempDeckSize - 2){
-				Card randomSolutionCard = tempDeck.get(randIndex);
+			if(tempDeck.size() == tempDeckSize - 2){
 				if(randomSolutionCard.getCardType() == CardType.WEAPON){
 					solution.setWeapon(randomSolutionCard);
 					tempDeck.remove(randIndex);
@@ -262,6 +260,10 @@ public class Board {
 	public ArrayList<Card> getDeck(){
 		return deck;
 	}
+	
+	public Solution getSolution() {
+		return solution;
+	}
 
 	public void initialize()  {
 		try {
@@ -283,16 +285,16 @@ public class Board {
 		players.add(player1);
 		ComputerPlayer player2 = new ComputerPlayer();
 		players.add(player2);
-		ComputerPlayer player3 = new ComputerPlayer("default", "default", 5, 20);
+		ComputerPlayer player3 = new ComputerPlayer("default", "default", 5, 20, false);
 		players.add(player3);
 		ComputerPlayer player4 = new ComputerPlayer();
 		players.add(player4);
 		ComputerPlayer player5 = new ComputerPlayer();
 		players.add(player5);
-		HumanPlayer player6 = new HumanPlayer();
+		HumanPlayer player6 = new HumanPlayer("default", "default", 0, 0, true);
 		players.add(player6);
-
 		
+		deal();
 		
 	}
 
