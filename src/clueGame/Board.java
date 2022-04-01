@@ -219,29 +219,38 @@ public class Board {
 		int tempDeckSize = tempDeck.size();
 		Random rand = new Random();
 		while(tempDeck.size() != tempDeckSize - 3){
+			// Gets random index to be used for getting solution.
 			int randIndex = rand.nextInt(tempDeck.size());
+			// Stores our new random card.
 			Card randomSolutionCard = tempDeck.get(randIndex);
+			// Checks for a person to be added to our solution pile.
 			if(tempDeck.size() == tempDeckSize){
 				if(randomSolutionCard.getCardType() == CardType.PERSON){
 					solution.setPerson(randomSolutionCard);
+					// Removes that person card from the rest of the deck.
 					tempDeck.remove(randIndex);
 				}
 			}
+			// Once a person has been found for the soultion we check for a random room.
 			if(tempDeck.size() == tempDeckSize - 1){
 				if(randomSolutionCard.getCardType() == CardType.ROOM){
 					solution.setRoom(randomSolutionCard);
+					// Removes that room card from the rest of the deck.
 					tempDeck.remove(randIndex);
 				}
 			}
+			// Once a rooom has been found for the solution we check for a random weapon.
 			if(tempDeck.size() == tempDeckSize - 2){
 				if(randomSolutionCard.getCardType() == CardType.WEAPON){
 					solution.setWeapon(randomSolutionCard);
+					// Removes that weapon card from the rest of the deck.
 					tempDeck.remove(randIndex);
 				}
 			}
 		}
 		//random for rest of players
 		while( tempDeck.size() !=0) {
+			// goes through the rest of the deck and deals out to the cards.
 			for(int i = 0; i< players.size(); i++) {
 				if(tempDeck.size()== 0) {
 					break;
@@ -281,6 +290,7 @@ public class Board {
 			e.printStackTrace();
 		}
 		
+		// Creates 6 players one being a human
 		ComputerPlayer player1 = new ComputerPlayer();
 		players.add(player1);
 		ComputerPlayer player2 = new ComputerPlayer();
