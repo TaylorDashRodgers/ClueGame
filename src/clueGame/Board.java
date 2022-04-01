@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -19,6 +20,10 @@ public class Board {
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
+	//I think we need these not sure
+	private ArrayList<Card> deck = new ArrayList<Card>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private Solution solution;
 	/*
 	 * variable and methods used for singleton pattern
 	 */
@@ -55,6 +60,7 @@ public class Board {
 				board[i][j] = temp;
 			}
 		}
+		
 
 
 		// Reads through the file the second time now that we have rows and cols.
@@ -206,6 +212,37 @@ public class Board {
 			}
 		}
 	}
+	
+	public void deal() {
+		//random three for solution
+		ArrayList<Card> tempDeck = deck;
+		Random rand = new Random();
+		for(int i = 0; i < 3; i ++){
+			int randIndex = rand.nextInt(deck.size());
+			Card randomSolutionCard = deck.get(randIndex);
+			if(randomSolutionCard.getCardType() == CardType.PERSON){
+				solution.setPerson(randomSolutionCard);
+				tempDeck.remove()
+			}
+			if(randomSolutionCard.getCardType() == CardType.ROOM){
+				solution.setRoom(randomSolutionCard);
+			}
+			if(randomSolutionCard.getCardType() == CardType.WEAPON){
+				solution.setWeapon(randomSolutionCard);
+			}
+		}
+		//random for rest of players
+		while( tempDeck.size() !=0) {
+			for(int i = 0; i< players.size(); i++) {
+				if(tempDeck.size()== 0) {
+					break;
+				}
+				int randIndex = rand.nextInt(tempDeck.size());
+				players.get(i).updtateHand(tempDeck.get(randIndex));
+				tempDeck.remove(randIndex);
+			}
+		}
+	}
 
 	public void initialize()  {
 		try {
@@ -222,6 +259,14 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		ComputerPlayer player1 = new ComputerPlayer();
+		players.add(player1);
+		ComputerPlayer player2 = new ComputerPlayer();
+		players.add(player2);
+
+		
+		
 	}
 
 	// Sets our Config Files.
@@ -295,11 +340,25 @@ public class Board {
 				continue;
 			}
 			// Splits the line up into useful chunks.
-			line = fullLine.split(",");
+			line = fullLine.split(", ");
 			if(!line[0].equals("Room") && !line[0].equals("Space")){
 				throw new BadConfigFormatException("Not a space or room.");
 			}
-			roomsMap.put(line[2].charAt(1),new Room(line[1].substring(1),line[2].charAt(1)));
+			
+			if(line[0].equals("Room")) {
+				roomsMap.put(line[2].charAt(0),new Room(line[1],line[2].charAt(0)));
+				Card card = new Card(line[1],CardType.ROOM);
+				deck.add(card);
+			}
+			if(line[0].equals("Person")) {
+				Card card = new Card(line[1], CardType.PERSON);
+				deck.add(card);
+			}
+			if(line[0].equals("Weapon")) {
+				Card card = new Card(line[1], CardType.WEAPON);
+				deck.add(card);
+			}
+			
 		}
 		inTxt.close();
 	}
