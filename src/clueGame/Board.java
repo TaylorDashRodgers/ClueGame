@@ -367,6 +367,15 @@ public class Board {
 		return roomsMap.get(cell.getInitial());
 	}
 
+	public Card handleSuggestion(Suggestion s){
+		for(Player player : players){
+			if(player.disproveSuggestion(s) != null){
+				return player.disproveSuggestion(s);
+			}
+		}
+		return null;
+	}
+
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		// Reads in txt
 		FileReader txt = new FileReader(txtConfig);
@@ -405,4 +414,13 @@ public class Board {
 	public Set<BoardCell> getAdjList(int i, int j) {
 		return getCell(i,j).getAdjList();
 	}
+	
+	public boolean checkAccusation(Accusation a) {
+		if (a.getRoom().Equals(solution.getRoom()) && a.getWeapon().Equals(solution.getWeapon()) && a.getPerson().Equals(solution.getPerson())) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 }

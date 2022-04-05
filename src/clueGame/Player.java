@@ -7,6 +7,8 @@ abstract public class Player {
 	private int row, column;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private boolean isHuman;
+	private ArrayList<Card> seen = new ArrayList<Card>(); 
+
 	
 	//Getters
 	public boolean isHuman() {
@@ -31,9 +33,6 @@ abstract public class Player {
 	//Setters
 	public void setColumn(int column) {
 		this.column = column;
-	}
-	public void updtateHand(Card card) {
-		hand.add(card);
 	}
 	public void setRow(int row) {
 		this.row = row;
@@ -62,6 +61,24 @@ abstract public class Player {
 		this.row = 0;
 		this.column = 0;
 		this.isHuman = false;
+	}
+
+	//Methods
+	public Card disproveSuggestion(Suggestion s) {
+		for(Card card : hand){
+			if(s.getPerson().Equals(card) || s.getRoom().Equals(card) || s.getWeapon().Equals(card)){
+				return card;
+			}
+		}
+		return null;
+	}
+
+	public void updtateHand(Card card) {
+		hand.add(card);
+	}
+
+	public void updtateSeen(Card card) {
+		hand.add(card);
 	}
 	
 }

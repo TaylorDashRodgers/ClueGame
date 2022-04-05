@@ -26,5 +26,15 @@ public class Card {
 		this.cardName = cardName;
 		this.type = type;
 	}
+
+	//Methods
+	public boolean Equals(Card card){
+		if (card.getCardName() == this.cardName && card.getCardType() == this.getCardType()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 	
 }
