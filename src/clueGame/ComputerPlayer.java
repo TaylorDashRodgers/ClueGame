@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
-	private static Board board;
 
 	public ComputerPlayer(String name, String color, int row, int column, boolean isHuman) {
 		super(name, color, row, column, isHuman);
@@ -37,8 +36,7 @@ public class ComputerPlayer extends Player {
 	}
 
 	public BoardCell selectTarget() {
-		Set<BoardCell> targets = board.getTargets();
-		BoardCell temp = new BoardCell();
+		Set<BoardCell> targets = Board.getInstance().getTargets();
 		for (BoardCell cell : targets) {
 			if (cell.isRoomCenter()) {
 				return cell;
