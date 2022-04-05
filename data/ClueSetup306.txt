@@ -11,3 +11,17 @@ Room, Hall, H
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
+// personCards
+Person, Tony Stark
+Person, Steve Rogers
+Person, Bruce Banner
+Person, T'Challa
+Person, Natasha Romanoff
+Person, Wanda Maximoff
+// weaponCards
+Weapon, vibranium shield
+Weapon, repulsors
+Weapon, mjolnir
+Weapon, handgun
+Weapon, sonic spear
+Weapon, bow 
