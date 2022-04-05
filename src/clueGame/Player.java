@@ -7,7 +7,7 @@ abstract public class Player {
 	private int row, column;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private boolean isHuman;
-	private ArrayList<Card> seen = new ArrayList<Card>(); 
+	protected ArrayList<Card> seen = new ArrayList<Card>(); 
 
 	
 	//Getters
