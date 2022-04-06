@@ -29,6 +29,21 @@ class ComputerAITest {
 		// Initialize will load config files
 		board.initialize();
 		bathroomCard = new Card("Bathroom", CardType.ROOM);
+
+		vibraniumShieldCard = board.getDeck().get(15);
+		repulsorsCard = board.getDeck().get(16);
+		mjolnirCard = board.getDeck().get(17);
+		handgunCard = board.getDeck().get(18);
+		sonicSpearCard = board.getDeck().get(19);
+		bowCard = board.getDeck().get(20);
+
+		tonyStarkCard = board.getDeck().get(9);
+		steveRogersCard = board.getDeck().get(10);
+		bruceBannerCard = board.getDeck().get(11);
+		tChallaCard = board.getDeck().get(12);
+		natashaRomanoffCard = board.getDeck().get(13);
+		wandaMaximoffCard = board.getDeck().get(14);
+
 	}
 	
 	@Test
@@ -53,12 +68,23 @@ class ComputerAITest {
 	
 	@Test
 	public void createSuggestion() {
-		Suggestion suggestion = new Suggestion();
-		suggestion.setRoom(bathroomCard);
 		ComputerPlayer computerPlayer = new ComputerPlayer("Steve Rogers", "Purple", 13, 14, false);
-		// Tests if the room 
-		assertTrue(computerPlayer.getRow() == 13);
-		assertTrue(computerPlayer.getColumn() == 14);
+		// Tests if the room matches the current location.
+		assertTrue(computerPlayer.createSuggestion(bathroomCard).getRoom().getCardName().equals(board.getRoom(board.getBoard()[computerPlayer.getRow()][computerPlayer.getColumn()]).getName()));
+		
+		computerPlayer.updateSeen(handgunCard);
+		computerPlayer.updateSeen(mjolnirCard);
+		computerPlayer.updateSeen(handgunCard);
+		computerPlayer.updateSeen(bowCard);
+		computerPlayer.updateSeen(repulsorsCard);
+		assertTrue(computerPlayer.createSuggestion(bathroomCard).getWeapon().getCardName().equals("vibranium shield"));
+
+		computerPlayer.updateSeen(tonyStarkCard);
+		computerPlayer.updateSeen(steveRogersCard);
+		computerPlayer.updateSeen(bruceBannerCard);
+		computerPlayer.updateSeen(tChallaCard);
+		computerPlayer.updateSeen(natashaRomanoffCard);
+		assertTrue(computerPlayer.createSuggestion(bathroomCard).getPerson().getCardName().equals("Wanda Maximoff"));
 	}
 
 }

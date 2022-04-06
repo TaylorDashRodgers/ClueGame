@@ -21,6 +21,7 @@ public class ComputerPlayer extends Player {
 		temp.setRoom(room);
 		for(Card card : Board.getInstance().getDeck()){
 			if(!seen.contains(card)){
+				//System.out.println(card.getCardName());
 				if(card.getCardType() == CardType.PERSON && temp.getPerson() == null){
 					temp.setPerson(card);
 				}

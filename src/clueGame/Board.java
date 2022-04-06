@@ -24,6 +24,10 @@ public class Board {
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
+
+	public BoardCell[][] getBoard(){
+		return board;
+	}
 	/*
 	 * variable and methods used for singleton pattern
 	 */

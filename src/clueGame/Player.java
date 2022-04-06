@@ -77,8 +77,12 @@ abstract public class Player {
 		hand.add(card);
 	}
 
-	public void updtateSeen(Card card) {
-		hand.add(card);
+	public void updateSeen(Card card) {
+		seen.add(card);
+	}
+
+	public ArrayList<Card> getSeen(){
+		return seen;
 	}
 	
 }

@@ -71,6 +71,11 @@ class GameSolutionTest {
 		suggest.setWeapon(repulsorsCard);
 		board.getPlayers().get(0).getHand().add(0, repulsorsCard);
 		assertTrue(board.handleSuggestion(suggest) != null);
-	}
+		board.getPlayers().get(0).getHand().clear();
+		board.getPlayers().get(4).getHand().clear();
+		board.getPlayers().get(4).getHand().add(0, repulsorsCard);
+		assertTrue(board.handleSuggestion(suggest) != null);
+		}
+		
 
 }
