@@ -37,6 +37,7 @@ class GameSolutionTest {
 	}
 
 	@Test
+	//Sets accusation equal and not equal to the solution and then tests check acusation
 	public void checkAccusation(){
 		Accusation acuse = new Accusation();
 		acuse.setPerson(tonyStarkCard);
@@ -48,6 +49,7 @@ class GameSolutionTest {
 	}
 
 	@Test
+	//gives the cards to player to so that they could disprove a suggestion
 	public void disproveSuggestion(){
 		Suggestion suggest = new Suggestion();
 		suggest.setPerson(tonyStarkCard);
@@ -64,6 +66,7 @@ class GameSolutionTest {
 	}
 
 	@Test
+	//gives cards to disprove suggestion to differenty players and tests that it loops through
 	public void handleSuggestion(){
 		Suggestion suggest = new Suggestion();
 		suggest.setPerson(tonyStarkCard);

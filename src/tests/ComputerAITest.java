@@ -30,6 +30,7 @@ class ComputerAITest {
 		board.initialize();
 		bathroomCard = new Card("Bathroom", CardType.ROOM);
 
+		// Declares our weapon cards for use in test.
 		vibraniumShieldCard = board.getDeck().get(15);
 		repulsorsCard = board.getDeck().get(16);
 		mjolnirCard = board.getDeck().get(17);
@@ -37,6 +38,7 @@ class ComputerAITest {
 		sonicSpearCard = board.getDeck().get(19);
 		bowCard = board.getDeck().get(20);
 
+		// Declares our weapon cards for use in test.
 		tonyStarkCard = board.getDeck().get(9);
 		steveRogersCard = board.getDeck().get(10);
 		bruceBannerCard = board.getDeck().get(11);
@@ -72,6 +74,7 @@ class ComputerAITest {
 		// Tests if the room matches the current location.
 		assertTrue(computerPlayer.createSuggestion(bathroomCard).getRoom().getCardName().equals(board.getRoom(board.getBoard()[computerPlayer.getRow()][computerPlayer.getColumn()]).getName()));
 		
+		// Tests if the create suggestion based off the seen list works for weapon.
 		computerPlayer.updateSeen(handgunCard);
 		computerPlayer.updateSeen(mjolnirCard);
 		computerPlayer.updateSeen(handgunCard);
@@ -79,6 +82,7 @@ class ComputerAITest {
 		computerPlayer.updateSeen(repulsorsCard);
 		assertTrue(computerPlayer.createSuggestion(bathroomCard).getWeapon().getCardName().equals("vibranium shield"));
 
+		// Test if the create suggestion based off the seen list works for person.
 		computerPlayer.updateSeen(tonyStarkCard);
 		computerPlayer.updateSeen(steveRogersCard);
 		computerPlayer.updateSeen(bruceBannerCard);
