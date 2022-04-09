@@ -299,7 +299,7 @@ public class Board {
 		players.add(player1);
 		ComputerPlayer player2 = new ComputerPlayer();
 		players.add(player2);
-		ComputerPlayer player3 = new ComputerPlayer("default", "default", 5, 20, false);
+		ComputerPlayer player3 = new ComputerPlayer("default", 20, 5, "default", false);
 		players.add(player3);
 		ComputerPlayer player4 = new ComputerPlayer();
 		players.add(player4);

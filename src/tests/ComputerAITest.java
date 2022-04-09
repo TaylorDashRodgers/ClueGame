@@ -52,7 +52,7 @@ class ComputerAITest {
 	public void selectTargets() {
 		// Test a roll of 1 with no room.
 		board.calcTargets(board.getCell(10, 19), 1);
-		ComputerPlayer computerPlayer = new ComputerPlayer("Tony Stark", "Red", 10, 19, false);
+		ComputerPlayer computerPlayer = new ComputerPlayer("Tony Stark", 19, 10, "Red", false);
 		int counter = 0;
 		// loops through checking to make sure it is random by not being true everytime.
 		for(int i = 0; i < 10; i++) {
@@ -64,13 +64,13 @@ class ComputerAITest {
 		
 		// Tests if there is a room it will be selected.
 		board.calcTargets(board.getCell(10, 21), 1);
-		ComputerPlayer computerPlayer1 = new ComputerPlayer("Bruce Banner", "Blue", 10, 21, false);
+		ComputerPlayer computerPlayer1 = new ComputerPlayer("Bruce Banner", 21, 10, "Blue", false);
 		assertTrue(computerPlayer.selectTarget().equals(board.getCell(5, 21)));
 	}
 	
 	@Test
 	public void createSuggestion() {
-		ComputerPlayer computerPlayer = new ComputerPlayer("Steve Rogers", "Purple", 13, 14, false);
+		ComputerPlayer computerPlayer = new ComputerPlayer("Steve Rogers", 14, 13, "Purple", false);
 		// Tests if the room matches the current location.
 		assertTrue(computerPlayer.createSuggestion(bathroomCard).getRoom().getCardName().equals(board.getRoom(board.getBoard()[computerPlayer.getRow()][computerPlayer.getColumn()]).getName()));
 		
