@@ -65,30 +65,30 @@ public class GameCards extends JPanel{
     }
     
     public void addPersonHand(Card card) {
-//    	JTextField temp = new JTextField(card.getCardName());
-    	System.out.println(card.getCardName());
     	peopleCardsHand.add(new JTextField(card.getCardName()));
+    	peopleCardsHand.revalidate();
     }
+    
     public void addRoomHand(Card card) {
-    	JTextField temp = new JTextField(card.getCardName());
-    	roomCardsHand.add(temp);
+    	roomCardsHand.add(new JTextField(card.getCardName()));
+    	roomCardsHand.revalidate();
     }
     public void addWeaponHand(Card card) {
-    	JTextField temp = new JTextField(card.getCardName());
-    	weaponCardsHand.add(temp);
+    	weaponCardsHand.add(new JTextField(card.getCardName()));
+    	weaponCardsHand.revalidate();
     }
 
     public void addPersonSeen(Card card) {
-    	JTextField temp = new JTextField(card.getCardName());
-    	peopleCardsSeen.add(temp);
+    	peopleCardsSeen.add(new JTextField(card.getCardName()));
+    	peopleCardsSeen.revalidate();
     }
     public void addRoomSeen(Card card) {
-    	JTextField temp = new JTextField(card.getCardName());
-    	roomCardsSeen.add(temp);
+    	roomCardsSeen.add(new JTextField(card.getCardName()));
+    	roomCardsSeen.revalidate();
     }
     public void addWeaponSeen(Card card) {
-    	JTextField temp = new JTextField(card.getCardName());
-    	weaponCardsSeen.add(temp);
+    	weaponCardsSeen.add(new JTextField(card.getCardName()));
+    	weaponCardsSeen.revalidate();
     }
     
 	public static void main(String[] args) {
@@ -107,6 +107,8 @@ public class GameCards extends JPanel{
 		board.initialize();
 		
 		Player test = board.getPlayers().get(0);
+		Player test2 = board.getPlayers().get(1);
+		Player test3 = board.getPlayers().get(2);
 		for(Card temp : test.getHand() ) {
 			if(temp.getCardType() == CardType.PERSON) {
 				panel.addPersonHand(temp);
@@ -116,6 +118,25 @@ public class GameCards extends JPanel{
 			}
 			if(temp.getCardType() == CardType.WEAPON) {
 				panel.addWeaponHand(temp);
+			}
+		}
+		
+		for (Card temp : test2.getHand() ) {
+			test.getSeen().add(temp);
+		}
+		for (Card temp : test3.getHand() ) {
+			test.getSeen().add(temp);
+		}
+		
+		for(Card temp : test.getSeen() ) {
+			if(temp.getCardType() == CardType.PERSON) {
+				panel.addPersonSeen(temp);
+			}
+			if(temp.getCardType() == CardType.ROOM) {
+				panel.addRoomSeen(temp);
+			}
+			if(temp.getCardType() == CardType.WEAPON) {
+				panel.addWeaponSeen(temp);
 			}
 		}
 		
