@@ -1,5 +1,8 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +13,7 @@ public class BoardCell {
 	private int col, row;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
 	private char initial, secretPassage;
-	private boolean isRoom, isRoomCenter, isLabel, isOccupied, isDoor;
+	private boolean isRoom, isRoomCenter, isLabel, isOccupied, isDoor, isUnused;
 	private DoorDirection doorDirection;
 
 
@@ -25,6 +28,40 @@ public class BoardCell {
 		col = 0;
 		secretPassage = '0';
 	}
+	
+	
+	public void draw(int cellWidth, int cellHeight, Graphics g) {
+		if(isRoom){
+			g.setColor(Color.CYAN);
+			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+		}
+		else if(isDoor){
+			g.setColor(Color.BLUE);
+			if(doorDirection == DoorDirection.UP){
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, 3);
+			}
+			if(doorDirection == DoorDirection.LEFT){
+				g.fillRect((col*cellWidth),(row*cellHeight), 3, cellHeight);
+			}
+			if(doorDirection == DoorDirection.RIGHT){
+				g.fillRect((col*cellWidth)+cellWidth-3,(row*cellHeight), 3, cellHeight);
+			}
+			if(doorDirection == DoorDirection.DOWN){
+				g.fillRect((col*cellWidth),(row*cellHeight)+cellHeight-3, cellWidth, 3);
+			}
+		}
+		else if (isUnused){
+			g.setColor(Color.RED);
+			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+		}
+		else{
+			g.setColor(Color.YELLOW);
+			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+			g.setColor(Color.BLACK);
+			g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+		}
+			
+	}
 
 
 	// Setters
@@ -36,6 +73,9 @@ public class BoardCell {
 	}
 	public void setIsRoom(boolean bool) {
 		this.isRoom = bool;
+	}
+	public void setIsUnused(boolean bool) {
+		this.isUnused = bool;
 	}
 	public void setIsDoorway(boolean bool) {
 		isDoor = bool;
@@ -96,5 +136,8 @@ public class BoardCell {
 	}
 	public boolean isLabel() {
 		return isLabel;
+	}
+	public boolean isUnused(){
+		return isUnused;
 	}
 }

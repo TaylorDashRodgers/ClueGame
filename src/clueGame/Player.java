@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 abstract public class Player {
@@ -9,7 +11,10 @@ abstract public class Player {
 	private boolean isHuman;
 	protected ArrayList<Card> seen = new ArrayList<Card>(); 
 
-	
+	public void draw(int cellWidth, int cellHeight, Graphics g){
+		g.setColor(Color.black);
+		g.fillOval(column*cellWidth,row*cellHeight, cellWidth, cellHeight);
+	}
 	//Getters
 	public boolean isHuman() {
 		return isHuman;

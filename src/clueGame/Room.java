@@ -1,5 +1,9 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +21,13 @@ public class Room {
     public Room(String name, char c) {
     	this.letter = c;
     	this.name = name;
+    }
+
+    public void draw(int cellWidth, int cellHeight, Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(name,(labelCell.getCol()*cellWidth),(labelCell.getRow()*cellHeight));
     }
     
     // Getters
@@ -46,11 +57,4 @@ public class Room {
     public void setLabelCell(BoardCell label){
         this.labelCell = label;
     }
-    
-    
-
-    
-    
-
-
 }

@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,12 +12,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Board {
+import javax.swing.JPanel;
+
+public class Board extends JPanel {
 	// Declares all of our variables we will be using.
 	private BoardCell[][] board;
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private int columns, rows;
+	private int columns, rows, cellWidth, cellHeight;
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
@@ -24,6 +27,23 @@ public class Board {
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		cellWidth = getWidth() / columns;
+		cellHeight = getHeight() / rows;
+		for(BoardCell[] cells: board){
+			for(BoardCell cell: cells){
+				cell.draw(cellWidth, cellHeight, g);
+			}
+		}
+		for(Map.Entry<Character,Room> entry : roomsMap.entrySet()){
+			entry.getValue().draw(cellWidth, cellHeight, g);
+		}
+		for(Player p: players){
+			p.draw(cellWidth,cellHeight,g);
+		}
+	}
 
 	public BoardCell[][] getBoard(){
 		return board;
@@ -78,8 +98,11 @@ public class Board {
 			for (String cellText : line){
 				board[row2][col2].setInitial(cellText.charAt(0));
 				// Checks for non walkways and assigns them as rooms.
-				if(cellText.charAt(0)!='W') {
+				if(cellText.charAt(0)!='W' &&  cellText.charAt(0) != 'X') {
 					board[row2][col2].setIsRoom(true);
+				}
+				if(cellText.charAt(0) == 'X'){
+					board[row2][col2].setIsUnused(true);	
 				}
 				// Further check of all cells that are special meaning more than one char long.
 				if(cellText.length() != 1) {
@@ -295,17 +318,17 @@ public class Board {
 		}
 		
 		// Creates 6 players one being a human
-		ComputerPlayer player1 = new ComputerPlayer();
+		ComputerPlayer player1 = new ComputerPlayer("default", 19, 0, "default", false);
 		players.add(player1);
-		ComputerPlayer player2 = new ComputerPlayer();
+		ComputerPlayer player2 = new ComputerPlayer("default", 7, 0, "default", false);
 		players.add(player2);
-		ComputerPlayer player3 = new ComputerPlayer("default", 20, 5, "default", false);
+		ComputerPlayer player3 = new ComputerPlayer("default", 0, 7, "default", false);
 		players.add(player3);
-		ComputerPlayer player4 = new ComputerPlayer();
+		ComputerPlayer player4 = new ComputerPlayer("default", 0, 18, "default", false);
 		players.add(player4);
-		ComputerPlayer player5 = new ComputerPlayer();
+		ComputerPlayer player5 = new ComputerPlayer("default", 10, 23, "default", false);
 		players.add(player5);
-		HumanPlayer player6 = new HumanPlayer("default", "default", 0, 0, true);
+		HumanPlayer player6 = new HumanPlayer("default", "default", 23, 12, true);
 		players.add(player6);
 		
 		deal();
