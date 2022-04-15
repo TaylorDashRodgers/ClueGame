@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -111,6 +112,7 @@ public class GameCards extends JPanel{
     	weaponCardsSeen.add(new JTextField(card.getCardName()));
     	weaponCardsSeen.revalidate();
     }
+    
     
 	public static void main(String[] args) {
 		

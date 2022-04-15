@@ -42,6 +42,7 @@ public class GameControlPanel extends JPanel{
 		Top1.add(label);
 		label.setHorizontalAlignment(JLabel.CENTER);
 		whoseTurn = new JTextField();
+		whoseTurn.setEditable(false);
 		Top1.add(whoseTurn);
 		Top.add(Top1);
 		Top2 = new JPanel();
@@ -50,6 +51,7 @@ public class GameControlPanel extends JPanel{
 		label2.setHorizontalAlignment(JLabel.RIGHT);
 		Top2.add(label2);
 		rolls = new JTextField(5);
+		rolls.setEditable(false);
 		Top2.add(rolls);
 		Top.add(Top2);
 		Top3 = new JButton("Make Accusaiton");
@@ -57,8 +59,9 @@ public class GameControlPanel extends JPanel{
 		Top4 = new JButton("NEXT!");
 		Top.add(Top4);
 		guess = new JTextField();
+		guess.setEditable(false);
 		guessResult = new JTextField();
-		guess.setText("I have no guess!");
+		guessResult.setEditable(false);
 		Bot1.add(guess);
 		Bot1.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		Bot.add(Bot1);

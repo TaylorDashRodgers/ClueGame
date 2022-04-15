@@ -19,9 +19,9 @@ Person, T'Challa
 Person, Natasha Romanoff
 Person, Wanda Maximoff
 // weaponCards
-Weapon, vibranium shield
-Weapon, repulsors
-Weapon, mjolnir
-Weapon, handgun
-Weapon, sonic spear
-Weapon, bow 
+Weapon, Vibranium shield
+Weapon, Repulsors
+Weapon, Mjolnir
+Weapon, Handgun
+Weapon, Sonic spear
+Weapon, Bow 

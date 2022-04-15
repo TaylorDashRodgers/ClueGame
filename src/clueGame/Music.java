@@ -23,7 +23,7 @@ public class Music {
 			FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			volume.setValue(-15);
 			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			//clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 		catch(Exception ex) 
 		{
