@@ -39,23 +39,39 @@ public class BoardCell {
 			g.setColor(Color.BLUE);
 			if(doorDirection == DoorDirection.UP){
 				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, 3);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect((col*cellWidth),(row*cellHeight)+3, cellWidth, cellHeight-3);
+				g.setColor(Color.BLACK);
+				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 			if(doorDirection == DoorDirection.LEFT){
 				g.fillRect((col*cellWidth),(row*cellHeight), 3, cellHeight);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect((col*cellWidth)+3,(row*cellHeight), cellWidth-3, cellHeight);
+				g.setColor(Color.BLACK);
+				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 			if(doorDirection == DoorDirection.RIGHT){
 				g.fillRect((col*cellWidth)+cellWidth-3,(row*cellHeight), 3, cellHeight);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth-3, cellHeight);
+				g.setColor(Color.BLACK);
+				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 			if(doorDirection == DoorDirection.DOWN){
 				g.fillRect((col*cellWidth),(row*cellHeight)+cellHeight-3, cellWidth, 3);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight-3);
+				g.setColor(Color.BLACK);
+				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 		}
 		else if (isUnused){
-			g.setColor(Color.RED);
+			g.setColor(Color.BLACK);
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 		}
 		else{
-			g.setColor(Color.YELLOW);
+			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			g.setColor(Color.BLACK);
 			g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);

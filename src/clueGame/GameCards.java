@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
@@ -18,7 +19,7 @@ public class GameCards extends JPanel{
 	private static Board board;
 	
 
-    public GameCards() {
+    public GameCards(Player player) {
     	setBorder(new TitledBorder(new EtchedBorder(), "Known Cards:"));
         setLayout(new GridLayout(3,0));
         People = new JPanel();
@@ -28,8 +29,10 @@ public class GameCards extends JPanel{
         inHandPeople.setHorizontalAlignment(JLabel.LEFT);
         People.add(inHandPeople);
         peopleCardsHand = new JPanel();
+        peopleCardsHand.setLayout(new GridLayout(0,1));
         People.add(peopleCardsHand);
         seenPeople = new JLabel("Seen:");
+        seenPeople.setLayout(new GridLayout(0,1));
         seenPeople.setHorizontalAlignment(JLabel.LEFT);
         People.add(seenPeople);
         peopleCardsSeen = new JPanel();
@@ -41,11 +44,13 @@ public class GameCards extends JPanel{
         inHandRooms.setHorizontalAlignment(JLabel.LEFT);
         Rooms.add(inHandRooms);
         roomCardsHand = new JPanel();
+        roomCardsHand.setLayout(new GridLayout(0,1));
         Rooms.add(roomCardsHand);
         seenRooms = new JLabel("Seen:");
         seenRooms.setHorizontalAlignment(JLabel.LEFT);
         Rooms.add(seenRooms);
         roomCardsSeen = new JPanel();
+        roomCardsSeen.setLayout(new GridLayout(0,1));
         Rooms.add(roomCardsSeen);
         Weapons = new JPanel();
         Weapons.setLayout(new GridLayout(4,0));
@@ -54,15 +59,28 @@ public class GameCards extends JPanel{
         inHandWeapons.setHorizontalAlignment(JLabel.LEFT);
         Weapons.add(inHandWeapons);
         weaponCardsHand = new JPanel();
+        weaponCardsHand.setLayout(new GridLayout(0,1));
         Weapons.add(weaponCardsHand);
         seenWeapons = new JLabel("Seen:");
         seenWeapons.setHorizontalAlignment(JLabel.LEFT);
         Weapons.add(seenWeapons);
         weaponCardsSeen = new JPanel();
+        weaponCardsSeen.setLayout(new GridLayout(0,1));
         Weapons.add(weaponCardsSeen);
         add(People);
         add(Rooms);
-        add(Weapons);
+        add(Weapons);        
+        for(Card temp : player.getHand() ) {
+			if(temp.getCardType() == CardType.PERSON) {
+				peopleCardsHand.add(new JTextField(temp.getCardName()));
+			}
+			if(temp.getCardType() == CardType.ROOM) {
+				roomCardsHand.add(new JTextField(temp.getCardName()));
+			}
+			if(temp.getCardType() == CardType.WEAPON) {
+				weaponCardsHand.add(new JTextField(temp.getCardName()));
+			}
+		}
     }
     
     // Creates the add to the hand methods.
@@ -95,32 +113,23 @@ public class GameCards extends JPanel{
     }
     
 	public static void main(String[] args) {
-		GameCards panel = new GameCards();  // create the panel
-		JFrame frame = new JFrame();  // create the frame 
-		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(160, 750);  // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
+		
 
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		
+		GameCards panel = new GameCards(board.getPlayers().get(0));  // create the panel
+		JFrame frame = new JFrame();  // create the frame 
+		frame.setContentPane(panel); // put the panel in the frame
+		frame.setSize(160, 750);  // size the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
+		frame.setVisible(true); // make it visible
+		
 		Player test = board.getPlayers().get(0);
 		Player test2 = board.getPlayers().get(1);
 		Player test3 = board.getPlayers().get(2);
-		for(Card temp : test.getHand() ) {
-			if(temp.getCardType() == CardType.PERSON) {
-				panel.addPersonHand(temp);
-			}
-			if(temp.getCardType() == CardType.ROOM) {
-				panel.addRoomHand(temp);
-			}
-			if(temp.getCardType() == CardType.WEAPON) {
-				panel.addWeaponHand(temp);
-			}
-		}
-		
+
 		// Grabs cards from two other players to test the seen funcitonality
 		for (Card temp : test2.getHand() ) {
 			test.getSeen().add(temp);

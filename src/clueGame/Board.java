@@ -1,6 +1,9 @@
 package clueGame;
 
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +15,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Board extends JPanel {
@@ -27,6 +33,7 @@ public class Board extends JPanel {
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
+	private String[] sprites = {"im","cap","hulk","bp","nat","wanda"};
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -40,9 +47,12 @@ public class Board extends JPanel {
 		for(Map.Entry<Character,Room> entry : roomsMap.entrySet()){
 			entry.getValue().draw(cellWidth, cellHeight, g);
 		}
+		int counter = 0;
 		for(Player p: players){
-			p.draw(cellWidth,cellHeight,g);
+			p.draw(cellWidth,cellHeight,g,sprites[counter]);
+			counter = counter + 1;
 		}
+		
 	}
 
 	public BoardCell[][] getBoard(){
@@ -317,20 +327,6 @@ public class Board extends JPanel {
 			e.printStackTrace();
 		}
 		
-		// Creates 6 players one being a human
-		ComputerPlayer player1 = new ComputerPlayer("default", 19, 0, "default", false);
-		players.add(player1);
-		ComputerPlayer player2 = new ComputerPlayer("default", 7, 0, "default", false);
-		players.add(player2);
-		ComputerPlayer player3 = new ComputerPlayer("default", 0, 7, "default", false);
-		players.add(player3);
-		ComputerPlayer player4 = new ComputerPlayer("default", 0, 18, "default", false);
-		players.add(player4);
-		ComputerPlayer player5 = new ComputerPlayer("default", 10, 23, "default", false);
-		players.add(player5);
-		HumanPlayer player6 = new HumanPlayer("default", "default", 23, 12, true);
-		players.add(player6);
-		
 		deal();
 		
 	}
@@ -405,6 +401,7 @@ public class Board extends JPanel {
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		// Reads in txt
+		int playerCounter = 0;
 		FileReader txt = new FileReader(txtConfig);
 		Scanner inTxt = new Scanner(txt);
 		String[] line;
@@ -428,6 +425,31 @@ public class Board extends JPanel {
 			if(line[0].equals("Person")) {
 				Card card = new Card(line[1], CardType.PERSON);
 				deck.add(card);
+				if(playerCounter == 0){
+					ComputerPlayer player1 = new ComputerPlayer(line[1], 19, 0, "default", false);
+					players.add(player1);
+				}
+				if(playerCounter == 1){
+					ComputerPlayer player2 = new ComputerPlayer(line[1], 7, 0, "default", false);
+					players.add(player2);
+				}
+				if(playerCounter == 2){
+					ComputerPlayer player3 = new ComputerPlayer(line[1], 0, 7, "default", false);
+					players.add(player3);
+				}
+				if(playerCounter == 3){
+					ComputerPlayer player4 = new ComputerPlayer(line[1], 0, 18, "default", false);
+					players.add(player4);
+				}
+				if(playerCounter == 4){
+					ComputerPlayer player5 = new ComputerPlayer(line[1], 10, 23, "default", false);
+					players.add(player5);
+				}
+				if(playerCounter == 5){
+					HumanPlayer player6 = new HumanPlayer(line[1], "default", 23, 12, true);
+					players.add(player6);
+				}
+				playerCounter += 1;	
 			}
 			if(line[0].equals("Weapon")) {
 				Card card = new Card(line[1], CardType.WEAPON);

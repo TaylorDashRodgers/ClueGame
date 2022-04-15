@@ -2,7 +2,15 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 abstract public class Player {
 	private String name, color;
@@ -11,9 +19,15 @@ abstract public class Player {
 	private boolean isHuman;
 	protected ArrayList<Card> seen = new ArrayList<Card>(); 
 
-	public void draw(int cellWidth, int cellHeight, Graphics g){
-		g.setColor(Color.black);
-		g.fillOval(column*cellWidth,row*cellHeight, cellWidth, cellHeight);
+	public void draw(int cellWidth, int cellHeight, Graphics g, String who){
+		BufferedImage myPicture;
+		try {
+			myPicture = ImageIO.read(new File("data/" + who + ".png"));
+			g.drawImage(myPicture.getScaledInstance(cellWidth, cellHeight, Image.SCALE_FAST),column*cellWidth, row*cellHeight,null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	//Getters
 	public boolean isHuman() {

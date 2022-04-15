@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -64,7 +66,17 @@ public class GameControlPanel extends JPanel{
 		Bot2.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		Bot.add(Bot2);
 		add(Top);
-		add(Bot);		
+		add(Bot);
+		ButtonListener listener = new ButtonListener();
+		Top4.addActionListener(listener);
+	}
+
+	private class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if(Top4.isSelected()){
+				System.out.println("Pressed the NEXT!");
+			}
+		}
 	}
 	
 	// Creates our setGuess method.
