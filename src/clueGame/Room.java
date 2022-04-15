@@ -2,8 +2,13 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +30,8 @@ public class Room {
 
     public void draw(int cellWidth, int cellHeight, Graphics g){
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(new Font("Times New Roman", Font.PLAIN, 17));
         g2d.setColor(Color.BLACK);
+        g2d.setFont(new Font("times new roman", Font.PLAIN, 17));
         g2d.drawString(name,(labelCell.getCol()*cellWidth),(labelCell.getRow()*cellHeight));
     }
     

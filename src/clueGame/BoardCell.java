@@ -36,32 +36,32 @@ public class BoardCell {
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 		}
 		else if(isDoor){
-			g.setColor(Color.BLUE);
+			g.setColor(Color.RED);
 			if(doorDirection == DoorDirection.UP){
-				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, 3);
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, 5);
 				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect((col*cellWidth),(row*cellHeight)+3, cellWidth, cellHeight-3);
+				g.fillRect((col*cellWidth),(row*cellHeight)+5, cellWidth, cellHeight-5);
 				g.setColor(Color.BLACK);
 				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 			if(doorDirection == DoorDirection.LEFT){
-				g.fillRect((col*cellWidth),(row*cellHeight), 3, cellHeight);
+				g.fillRect((col*cellWidth),(row*cellHeight), 5, cellHeight);
 				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect((col*cellWidth)+3,(row*cellHeight), cellWidth-3, cellHeight);
+				g.fillRect((col*cellWidth)+5,(row*cellHeight), cellWidth-5, cellHeight);
 				g.setColor(Color.BLACK);
 				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 			if(doorDirection == DoorDirection.RIGHT){
-				g.fillRect((col*cellWidth)+cellWidth-3,(row*cellHeight), 3, cellHeight);
+				g.fillRect((col*cellWidth)+cellWidth-5,(row*cellHeight), 5, cellHeight);
 				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth-3, cellHeight);
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth-5, cellHeight);
 				g.setColor(Color.BLACK);
 				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
 			if(doorDirection == DoorDirection.DOWN){
-				g.fillRect((col*cellWidth),(row*cellHeight)+cellHeight-3, cellWidth, 3);
+				g.fillRect((col*cellWidth),(row*cellHeight)+cellHeight-5, cellWidth, 5);
 				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight-3);
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight-5);
 				g.setColor(Color.BLACK);
 				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			}
