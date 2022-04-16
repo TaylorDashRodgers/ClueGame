@@ -73,43 +73,61 @@ public class GameCards extends JPanel{
         add(Weapons);        
         for(Card temp : player.getHand() ) {
 			if(temp.getCardType() == CardType.PERSON) {
-				peopleCardsHand.add(new JTextField(temp.getCardName()));
+				JTextField tempText = new JTextField(temp.getCardName());
+				tempText.setEditable(false);
+				peopleCardsHand.add(tempText);
 			}
 			if(temp.getCardType() == CardType.ROOM) {
-				roomCardsHand.add(new JTextField(temp.getCardName()));
+				JTextField tempText = new JTextField(temp.getCardName());
+				tempText.setEditable(false);
+				roomCardsHand.add(tempText);
 			}
 			if(temp.getCardType() == CardType.WEAPON) {
-				weaponCardsHand.add(new JTextField(temp.getCardName()));
+				JTextField tempText = new JTextField(temp.getCardName());
+				tempText.setEditable(false);
+				weaponCardsHand.add(tempText);
 			}
 		}
     }
     
     // Creates the add to the hand methods.
     public void addPersonHand(Card card) {
-    	peopleCardsHand.add(new JTextField(card.getCardName()));
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		peopleCardsHand.add(tempText);
     	peopleCardsHand.revalidate();
     }
     
     public void addRoomHand(Card card) {
-    	roomCardsHand.add(new JTextField(card.getCardName()));
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		roomCardsHand.add(tempText);
     	roomCardsHand.revalidate();
     }
     public void addWeaponHand(Card card) {
-    	weaponCardsHand.add(new JTextField(card.getCardName()));
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		weaponCardsHand.add(tempText);
     	weaponCardsHand.revalidate();
     }
 
     // Creates the add to the seen methods.
     public void addPersonSeen(Card card) {
-    	peopleCardsSeen.add(new JTextField(card.getCardName()));
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		peopleCardsSeen.add(tempText);
     	peopleCardsSeen.revalidate();
     }
     public void addRoomSeen(Card card) {
-    	roomCardsSeen.add(new JTextField(card.getCardName()));
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		roomCardsSeen.add(tempText);
     	roomCardsSeen.revalidate();
     }
     public void addWeaponSeen(Card card) {
-    	weaponCardsSeen.add(new JTextField(card.getCardName()));
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		weaponCardsSeen.add(tempText);
     	weaponCardsSeen.revalidate();
     }
     

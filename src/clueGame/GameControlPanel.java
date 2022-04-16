@@ -19,7 +19,7 @@ public class GameControlPanel extends JPanel{
 	// Variable declaration
 	private JPanel Bot, Top, Top1, Top2, Bot1, Bot2;
 	private JLabel label, label2;
-	private JButton Top3, Top4;
+	private JButton Top3, nextButton;
 	private JTextField guess, guessResult, rolls, whoseTurn;
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -56,8 +56,8 @@ public class GameControlPanel extends JPanel{
 		Top.add(Top2);
 		Top3 = new JButton("Make Accusaiton");
 		Top.add(Top3);
-		Top4 = new JButton("NEXT!");
-		Top.add(Top4);
+		nextButton = new JButton("NEXT!");
+		Top.add(nextButton);
 		guess = new JTextField();
 		guess.setEditable(false);
 		guessResult = new JTextField();
@@ -71,13 +71,13 @@ public class GameControlPanel extends JPanel{
 		add(Top);
 		add(Bot);
 		ButtonListener listener = new ButtonListener();
-		Top4.addActionListener(listener);
+		nextButton.addActionListener(listener);
 	}
 
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			if(Top4.isSelected()){
-				System.out.println("Pressed the NEXT!");
+			if(nextButton.isSelected()){
+				Board.nextTurn();
 			}
 		}
 	}

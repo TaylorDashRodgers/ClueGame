@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +28,8 @@ public class Board extends JPanel {
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
 	private int columns, rows, cellWidth, cellHeight;
+	private int currentPlayer = 5;
+	private int roll = 3;
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
@@ -39,9 +43,10 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 		cellWidth = getWidth() / columns;
 		cellHeight = getHeight() / rows;
+		calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
 		for(BoardCell[] cells: board){
 			for(BoardCell cell: cells){
-				cell.draw(cellWidth, cellHeight, g);
+				cell.draw(cellWidth, cellHeight, g,targets, players.get(currentPlayer).isHuman());
 			}
 		}
 		for(Map.Entry<Character,Room> entry : roomsMap.entrySet()){
@@ -53,6 +58,31 @@ public class Board extends JPanel {
 			counter = counter + 1;
 		}
 		
+	}
+
+	private class MouseClick implements MouseListener {
+		public void mousePressed(MouseEvent event){}
+		public void mouseReleased(MouseEvent event){}
+		public void mouseEntered(MouseEvent event){}
+		public void mouseExited(MouseEvent event){}
+		public void mouseClicked(MouseEvent event){
+			System.out.println(event.getPoint());
+			
+			for(BoardCell target: targets) {
+				if(players.get(currentPlayer).isHuman()){
+					if(event.getPoint().getX() > (target.getCol() * cellWidth) &&  event.getPoint().getX() < ((target.getCol() * cellWidth)+ cellWidth) 
+							&& event.getPoint().getY() > (target.getRow() *cellHeight) && event.getPoint().getY() < ((target.getRow() *cellHeight)+cellHeight)){
+						players.get(currentPlayer).setColumn(target.getCol());
+						players.get(currentPlayer).setRow(target.getRow());
+						repaint();
+					}else{
+						System.out.println("Error");
+					}
+				}else{
+					bre
+				}
+			}
+		}
 	}
 
 	public BoardCell[][] getBoard(){
@@ -71,6 +101,11 @@ public class Board extends JPanel {
 	/*
 	 * initialize the board (since we are using singleton pattern)
 	 */
+	
+	public static void nextTurn() {
+		System.out.println("next turn");
+	}
+	
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 		// Reads in the file for the first time to get the cols and rows sizes.
 		FileReader csv = new FileReader(csvConfig);
@@ -328,6 +363,8 @@ public class Board extends JPanel {
 		}
 		
 		deal();
+
+		addMouseListener(new MouseClick());
 		
 	}
 

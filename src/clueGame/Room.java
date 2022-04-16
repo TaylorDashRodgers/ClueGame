@@ -30,7 +30,7 @@ public class Room {
 
     public void draw(int cellWidth, int cellHeight, Graphics g){
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("times new roman", Font.PLAIN, 17));
         g2d.drawString(name,(labelCell.getCol()*cellWidth),(labelCell.getRow()*cellHeight));
     }

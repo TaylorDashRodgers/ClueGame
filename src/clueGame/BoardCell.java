@@ -30,13 +30,13 @@ public class BoardCell {
 	}
 	
 	
-	public void draw(int cellWidth, int cellHeight, Graphics g) {
+	public void draw(int cellWidth, int cellHeight, Graphics g, Set<BoardCell> targets,boolean human) {
 		if(isRoom){
-			g.setColor(Color.CYAN);
+			g.setColor(Color.BLUE);
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 		}
 		else if(isDoor){
-			g.setColor(Color.RED);
+			g.setColor(Color.DARK_GRAY);
 			if(doorDirection == DoorDirection.UP){
 				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, 5);
 				g.setColor(Color.LIGHT_GRAY);
@@ -71,6 +71,14 @@ public class BoardCell {
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 		}
 		else{
+			if(human) {
+				for(BoardCell target : targets) {
+					g.setColor(Color.CYAN);
+					g.fillRect((target.getCol()*cellWidth),(target.getRow()*cellHeight), cellWidth, cellHeight);
+					g.setColor(Color.BLACK);
+					g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+				}
+			}
 			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 			g.setColor(Color.BLACK);
