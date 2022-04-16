@@ -142,7 +142,7 @@ public class Board extends JPanel {
 				repaint();
 			}
 			else {
-				
+				//Selects a random cell from targets unless a room is available 
 				BoardCell[] targetsArray = targets.toArray(new BoardCell[targets.size()]);
 				int randNum = rand.nextInt(targets.size());
 				BoardCell randTarget = targetsArray[randNum];
@@ -156,7 +156,7 @@ public class Board extends JPanel {
 					}
 				}
 				repaint();
-				//Handle Accusations and Suggestins from computer
+				//Handle Accusations and Suggestions from computer
 			}
 	
 			

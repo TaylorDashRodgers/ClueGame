@@ -44,10 +44,10 @@ public class ClueGame extends JFrame{
         add(cards, BorderLayout.EAST);
         add(board, BorderLayout.CENTER);
 	}
-	
+
     public static void main(String[] args) throws IOException {
     	Music theme = new Music();
-//    	theme.avengersTheme();
+    	theme.avengersTheme();
     	ClueGame frame = new ClueGame();
     	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);
