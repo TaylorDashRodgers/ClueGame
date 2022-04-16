@@ -30,7 +30,7 @@ public class BoardCell {
 	}
 	
 	
-	public void draw(int cellWidth, int cellHeight, Graphics g, Set<BoardCell> targets,boolean human) {
+	public void draw(int cellWidth, int cellHeight, Graphics g, Set<BoardCell> targets,boolean human, boolean moved) {
 		if(isRoom){
 			g.setColor(Color.BLUE);
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
@@ -71,7 +71,7 @@ public class BoardCell {
 			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 		}
 		else{
-			if(human) {
+			if(human&&!moved) {
 				for(BoardCell target : targets) {
 					g.setColor(Color.CYAN);
 					g.fillRect((target.getCol()*cellWidth),(target.getRow()*cellHeight), cellWidth, cellHeight);

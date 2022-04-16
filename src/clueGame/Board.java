@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -19,8 +21,13 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class Board extends JPanel {
 	// Declares all of our variables we will be using.
@@ -29,7 +36,7 @@ public class Board extends JPanel {
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
 	private int columns, rows, cellWidth, cellHeight;
 	private int currentPlayer = 5;
-	private int roll = 3;
+	private int roll = 9;
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
@@ -38,15 +45,17 @@ public class Board extends JPanel {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
 	private String[] sprites = {"im","cap","hulk","bp","nat","wanda"};
+	private boolean moved = false;
+	private boolean turnOver = false;
+	private GameControlPanel controlPanel;
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		cellWidth = getWidth() / columns;
 		cellHeight = getHeight() / rows;
-		calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
 		for(BoardCell[] cells: board){
 			for(BoardCell cell: cells){
-				cell.draw(cellWidth, cellHeight, g,targets, players.get(currentPlayer).isHuman());
+				cell.draw(cellWidth, cellHeight, g,targets, players.get(currentPlayer).isHuman(),moved);
 			}
 		}
 		for(Map.Entry<Character,Room> entry : roomsMap.entrySet()){
@@ -71,16 +80,29 @@ public class Board extends JPanel {
 			for(BoardCell target: targets) {
 				if(players.get(currentPlayer).isHuman()){
 					if(event.getPoint().getX() > (target.getCol() * cellWidth) &&  event.getPoint().getX() < ((target.getCol() * cellWidth)+ cellWidth) 
-							&& event.getPoint().getY() > (target.getRow() *cellHeight) && event.getPoint().getY() < ((target.getRow() *cellHeight)+cellHeight)){
+							&& event.getPoint().getY() > (target.getRow() *cellHeight) && event.getPoint().getY() < ((target.getRow() *cellHeight)+cellHeight) && !moved){
 						players.get(currentPlayer).setColumn(target.getCol());
 						players.get(currentPlayer).setRow(target.getRow());
+						moved = true;
 						repaint();
-					}else{
-						System.out.println("Error");
+						if(target.isRoom()){
+							JFrame suggestion = new JFrame("suggestion");
+							suggestion.setSize(400,200);
+							suggestion.setLocationRelativeTo(null);
+							suggestion.setVisible(true);
+							JLabel suggestionLabel = new JLabel("suggestion");
+							suggestionLabel.setHorizontalAlignment(JLabel.CENTER);
+							suggestion.add(suggestionLabel);
+							turnOver = true;
+						}
+						else {
+							turnOver = true;
+						}
 					}
-				}else{
-					bre
 				}
+			}
+			if(!moved) {
+				System.out.println("Error not possible");
 			}
 		}
 	}
@@ -102,8 +124,38 @@ public class Board extends JPanel {
 	 * initialize the board (since we are using singleton pattern)
 	 */
 	
-	public static void nextTurn() {
-		System.out.println("next turn");
+	public void nextTurn() {
+		if(!turnOver) {
+			System.out.println("Error finish your turn");
+		}
+		else {
+			if(currentPlayer == 5) {
+				currentPlayer = 0;
+			}
+			else {
+				currentPlayer = currentPlayer +1;
+			}
+			Random rand = new Random();
+			roll = rand.nextInt(6)+1;
+			calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
+			controlPanel.setTurn(players.get(currentPlayer), roll);
+			if(players.get(currentPlayer).isHuman()) {
+				moved = false;
+				repaint();
+			}
+			else {
+				BoardCell[] targetsArray = targets.toArray(new BoardCell[targets.size()]);
+				int randNum = rand.nextInt(targets.size());
+				BoardCell randTarget = targetsArray[randNum];
+				players.get(currentPlayer).setColumn(randTarget.getCol());
+				players.get(currentPlayer).setRow(randTarget.getRow());
+				repaint();
+				//Handle Accusations and Suggestins from computer
+			}
+	
+			
+			
+		}
 	}
 	
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -361,8 +413,8 @@ public class Board extends JPanel {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 		deal();
+		calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
 
 		addMouseListener(new MouseClick());
 		

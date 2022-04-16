@@ -21,7 +21,7 @@ public class Music {
 			clip.open(audioInput);
 			
 			FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-			volume.setValue(-15);
+			volume.setValue(-20);
 			clip.start();
 			//clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}

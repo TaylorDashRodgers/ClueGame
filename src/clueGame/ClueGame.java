@@ -31,7 +31,7 @@ public class ClueGame extends JFrame{
 		
 		setSize(900,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		control = new GameControlPanel();
+		control = new GameControlPanel(board);
 		cards = new GameCards(board.getPlayers().get(5));
 
        
@@ -40,14 +40,15 @@ public class ClueGame extends JFrame{
         add(cards, BorderLayout.EAST);
         add(board, BorderLayout.CENTER);
 	}
-    
+	
     public static void main(String[] args) throws IOException {
     	Music theme = new Music();
-    	theme.avengersTheme();
+//    	theme.avengersTheme();
     	ClueGame frame = new ClueGame();
     	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);
 		JOptionPane.showMessageDialog(null, "     You are " + board.getPlayers().get(5).getName() + "\n" + "    Can you find the solution\nbefore the Computer players?", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);  	
     }
+    
 
 }

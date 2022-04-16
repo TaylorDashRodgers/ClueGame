@@ -21,11 +21,12 @@ public class GameControlPanel extends JPanel{
 	private JLabel label, label2;
 	private JButton Top3, nextButton;
 	private JTextField guess, guessResult, rolls, whoseTurn;
+	private static Board board;
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel()  {
-		
+	public GameControlPanel(Board board)  {
+		this.board = board;
 		setLayout(new GridLayout(2,0));
 		Bot = new JPanel();
 		Top = new JPanel();
@@ -56,8 +57,12 @@ public class GameControlPanel extends JPanel{
 		Top.add(Top2);
 		Top3 = new JButton("Make Accusaiton");
 		Top.add(Top3);
+		
 		nextButton = new JButton("NEXT!");
+		ButtonListener listener = new ButtonListener();
+		nextButton.addActionListener(listener);
 		Top.add(nextButton);
+		
 		guess = new JTextField();
 		guess.setEditable(false);
 		guessResult = new JTextField();
@@ -70,15 +75,11 @@ public class GameControlPanel extends JPanel{
 		Bot.add(Bot2);
 		add(Top);
 		add(Bot);
-		ButtonListener listener = new ButtonListener();
-		nextButton.addActionListener(listener);
 	}
 
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			if(nextButton.isSelected()){
-				Board.nextTurn();
-			}
+			board.nextTurn();
 		}
 	}
 	
@@ -106,7 +107,13 @@ public class GameControlPanel extends JPanel{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel();  // create the panel
+		 // Board is singleton, get the only instance
+		board = Board.getInstance();
+		// set the file names to use my config files
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
+		// Initialize will load config files 
+		board.initialize();
+		GameControlPanel panel = new GameControlPanel(board);  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(750, 180);  // size the frame
