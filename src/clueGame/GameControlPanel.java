@@ -25,8 +25,16 @@ public class GameControlPanel extends JPanel{
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel(Board board)  {
-		this.board = board;
+	
+	private static GameControlPanel theInstance = new GameControlPanel();
+	// constructor is private to ensure only one can be created
+
+	// this method returns the only Board
+	public static GameControlPanel getInstance() {
+		return theInstance;
+	}
+	
+	public void initialize()  {
 		setLayout(new GridLayout(2,0));
 		Bot = new JPanel();
 		Top = new JPanel();
@@ -79,7 +87,7 @@ public class GameControlPanel extends JPanel{
 
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			board.nextTurn();
+			Board.getInstance().nextTurn();
 		}
 	}
 	
@@ -93,7 +101,7 @@ public class GameControlPanel extends JPanel{
     	whoseTurn.setText(player.getName());
     	String s = Integer.toString(roll);
     	rolls.setText(s);
-    	whoseTurn.setBackground(Color.orange);
+    	whoseTurn.setBackground(Color.cyan);
     }
     
 	// Creates our setGuessResult method.
@@ -113,17 +121,20 @@ public class GameControlPanel extends JPanel{
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		// Initialize will load config files 
 		board.initialize();
-		GameControlPanel panel = new GameControlPanel(board);  // create the panel
+		GameControlPanel control;
+		
+		control = GameControlPanel.getInstance();
+		control.initialize();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
-		frame.setContentPane(panel); // put the panel in the frame
+		frame.setContentPane(control); // put the panel in the frame
 		frame.setSize(750, 180);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 		
 //		 test filling in the data
-		panel.setTurn(new ComputerPlayer( "Col. Mustard", 0, 0, "orange", false), 5);
-		panel.setGuess( "I have no guess!");
-		panel.setGuessResult( "So you have nothing?");
+		control.setTurn(new ComputerPlayer( "Col. Mustard", 0, 0, "orange", false), 5);
+		control.setGuess( "I have no guess!");
+		control.setGuessResult( "So you have nothing?");
 	}
 
 }

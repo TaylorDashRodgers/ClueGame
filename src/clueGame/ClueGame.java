@@ -16,11 +16,14 @@ import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame{
 
-    private GameControlPanel control;
+    private static GameControlPanel control;
     private GameCards cards; 
     private static Board board;
 	
 	public ClueGame() throws IOException {
+		control = GameControlPanel.getInstance();
+		control.initialize();
+		
 		 // Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
@@ -29,9 +32,10 @@ public class ClueGame extends JFrame{
 		board.initialize();
 		
 		
+		
+		
 		setSize(900,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		control = new GameControlPanel(board);
 		cards = new GameCards(board.getPlayers().get(5));
 
        

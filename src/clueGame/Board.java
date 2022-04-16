@@ -36,7 +36,7 @@ public class Board extends JPanel {
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
 	private int columns, rows, cellWidth, cellHeight;
 	private int currentPlayer = 5;
-	private int roll = 9;
+	private int roll;
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
@@ -75,8 +75,6 @@ public class Board extends JPanel {
 		public void mouseEntered(MouseEvent event){}
 		public void mouseExited(MouseEvent event){}
 		public void mouseClicked(MouseEvent event){
-			System.out.println(event.getPoint());
-			
 			for(BoardCell target: targets) {
 				if(players.get(currentPlayer).isHuman()){
 					if(event.getPoint().getX() > (target.getCol() * cellWidth) &&  event.getPoint().getX() < ((target.getCol() * cellWidth)+ cellWidth) 
@@ -138,17 +136,25 @@ public class Board extends JPanel {
 			Random rand = new Random();
 			roll = rand.nextInt(6)+1;
 			calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
-			controlPanel.setTurn(players.get(currentPlayer), roll);
+			GameControlPanel.getInstance().setTurn(players.get(currentPlayer), roll);
 			if(players.get(currentPlayer).isHuman()) {
 				moved = false;
 				repaint();
 			}
 			else {
+				
 				BoardCell[] targetsArray = targets.toArray(new BoardCell[targets.size()]);
 				int randNum = rand.nextInt(targets.size());
 				BoardCell randTarget = targetsArray[randNum];
 				players.get(currentPlayer).setColumn(randTarget.getCol());
 				players.get(currentPlayer).setRow(randTarget.getRow());
+				for(BoardCell target : targets) {
+					if(target.isRoom()) {
+						players.get(currentPlayer).setColumn(target.getCol());
+						players.get(currentPlayer).setRow(target.getRow());
+						System.out.println("room");
+					}
+				}
 				repaint();
 				//Handle Accusations and Suggestins from computer
 			}
@@ -414,8 +420,10 @@ public class Board extends JPanel {
 			e.printStackTrace();
 		}
 		deal();
+		Random rand = new Random();
+		roll = rand.nextInt(6)+1;
 		calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
-
+		GameControlPanel.getInstance().setTurn(players.get(currentPlayer), roll);
 		addMouseListener(new MouseClick());
 		
 	}
