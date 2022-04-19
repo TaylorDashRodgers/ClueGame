@@ -73,16 +73,22 @@ public class BoardCell {
 		else{
 			if(human&&!moved) {
 				for(BoardCell target : targets) {
-					g.setColor(new Color(250,128,114));
+//					if(target.isRoom) {
+//						for(BoardCell room : Board.getInstance().getRoom(target).getCells()) {
+//							g.setColor(Color.cyan);
+//							g.fillRect((room.getCol()*cellWidth),(room.getRow()*cellHeight), cellWidth, cellHeight);
+//						}
+//					}
+					g.setColor(Color.cyan);
 					g.fillRect((target.getCol()*cellWidth),(target.getRow()*cellHeight), cellWidth, cellHeight);
 					g.setColor(Color.BLACK);
 					g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 				}
 			}
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
-			g.setColor(Color.BLACK);
-			g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
+				g.setColor(Color.BLACK);
+				g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
 		}
 			
 	}

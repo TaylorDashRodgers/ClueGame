@@ -48,6 +48,9 @@ public class Room {
     public String getName() {
     	return name;
     }
+    public Set<BoardCell> getCells(){
+    	return roomCells;
+    }
     
     // Setters
     public void setSymbol(char c) {
@@ -61,5 +64,8 @@ public class Room {
     }
     public void setLabelCell(BoardCell label){
         this.labelCell = label;
+    }
+    public void addCell(BoardCell cell) {
+    	roomCells.add(cell);
     }
 }

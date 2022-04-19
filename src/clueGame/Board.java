@@ -212,6 +212,7 @@ public class Board extends JPanel {
 				// Checks for non walkways and assigns them as rooms.
 				if(cellText.charAt(0)!='W' &&  cellText.charAt(0) != 'X') {
 					board[row2][col2].setIsRoom(true);
+					getRoom(cellText.charAt(0)).addCell(board[row2][col2]);
 				}
 				if(cellText.charAt(0) == 'X'){
 					board[row2][col2].setIsUnused(true);	
