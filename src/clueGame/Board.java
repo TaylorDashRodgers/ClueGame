@@ -128,16 +128,19 @@ public class Board extends JPanel {
 	 */
 	
 	public void nextTurn() {
+		// If the turn is not over it will display an error message.
 		if(!turnOver) {
 			System.out.println("Error finish your turn");
 		}
 		else {
+			// Handles all of the cases for moving to the next player including when it is the last player the current player will then be the first player again.
 			if(currentPlayer == 5) {
 				currentPlayer = 0;
 			}
 			else {
 				currentPlayer = currentPlayer +1;
 			}
+			// Creates a random number generate so our roll of the dice is random.
 			Random rand = new Random();
 			roll = rand.nextInt(6)+1;
 			calcTargets(getCell(players.get(currentPlayer).getRow(),players.get(currentPlayer).getColumn()),roll);
@@ -154,6 +157,7 @@ public class Board extends JPanel {
 				players.get(currentPlayer).setColumn(randTarget.getCol());
 				players.get(currentPlayer).setRow(randTarget.getRow());
 				for(BoardCell target : targets) {
+					// Computers prioritize rooms.
 					if(target.isRoom()) {
 						players.get(currentPlayer).setColumn(target.getCol());
 						players.get(currentPlayer).setRow(target.getRow());
