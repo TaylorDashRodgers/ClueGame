@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -51,7 +52,11 @@ public class ClueGame extends JFrame{
     	ClueGame frame = new ClueGame();
     	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);
-		JOptionPane.showMessageDialog(null, "     You are " + board.getPlayers().get(5).getName() + "\n" + "    Can you find the solution\nbefore the Computer players?", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);  	
+    	ImageIcon icon = new ImageIcon("data/avengers.png");
+    	Image image = icon.getImage();
+    	Image newimg = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+    	icon = new ImageIcon(newimg);
+		JOptionPane.showMessageDialog(null, "     You are " + board.getPlayers().get(5).getName() + "\n" + "    Can you find the solution\nbefore the Computer players?", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE, icon);  	
     }
     
 
