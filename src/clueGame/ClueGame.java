@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -14,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 public class ClueGame extends JFrame{
 
@@ -56,6 +58,10 @@ public class ClueGame extends JFrame{
     	Image image = icon.getImage();
     	Image newimg = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
     	icon = new ImageIcon(newimg);
+    	 UIManager UI=new UIManager();
+    	 UI.put("OptionPane.background", new Color(175, 0, 0));
+    	 UI.put("Panel.background",  new Color(175, 0, 0));
+    	 UI.put("OptionPane.messageForeground", Color.white);
 		JOptionPane.showMessageDialog(null, "     You are " + board.getPlayers().get(5).getName() + "\n" + "    Can you find the solution\nbefore the Computer players?", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE, icon);  	
     }
     
