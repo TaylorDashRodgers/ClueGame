@@ -21,6 +21,7 @@ abstract public class Player {
 	private boolean isHuman;
 	protected Set<Card> seen = new HashSet<Card>();
 
+	// added sprites for each avenger
 	public void draw(int cellWidth, int cellHeight, Graphics g, String who){
 		BufferedImage myPicture;
 		try {
