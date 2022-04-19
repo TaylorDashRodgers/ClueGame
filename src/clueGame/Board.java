@@ -70,19 +70,23 @@ public class Board extends JPanel {
 	}
 
 	private class MouseClick implements MouseListener {
+		// Handles our other mouse events that we don't need at the moment all we are using is mouse clicked.
 		public void mousePressed(MouseEvent event){}
 		public void mouseReleased(MouseEvent event){}
 		public void mouseEntered(MouseEvent event){}
 		public void mouseExited(MouseEvent event){}
 		public void mouseClicked(MouseEvent event){
 			for(BoardCell target: targets) {
+				// Loops through our set of targets and checks if it is a human or not.
 				if(players.get(currentPlayer).isHuman()){
+					// Once human is confirmed it checks to see if the mouse clicked is on a correct target and if so it moves the character to that new cell.
 					if(event.getPoint().getX() > (target.getCol() * cellWidth) &&  event.getPoint().getX() < ((target.getCol() * cellWidth)+ cellWidth) 
 							&& event.getPoint().getY() > (target.getRow() *cellHeight) && event.getPoint().getY() < ((target.getRow() *cellHeight)+cellHeight) && !moved){
 						players.get(currentPlayer).setColumn(target.getCol());
 						players.get(currentPlayer).setRow(target.getRow());
 						moved = true;
 						repaint();
+						// If the player is moved to a room it handles the suggestion for the player to make at this time. 
 						if(target.isRoom()){
 							JFrame suggestion = new JFrame("suggestion");
 							suggestion.setSize(400,200);
@@ -99,6 +103,7 @@ public class Board extends JPanel {
 					}
 				}
 			}
+			// If a incorrect cell is clicked it will print an error message.
 			if(!moved) {
 				System.out.println("Error not possible");
 			}
