@@ -73,7 +73,7 @@ public class BoardCell {
 		else{
 			if(human&&!moved) {
 				for(BoardCell target : targets) {
-					g.setColor(Color.CYAN);
+					g.setColor(new Color(250,128,114));
 					g.fillRect((target.getCol()*cellWidth),(target.getRow()*cellHeight), cellWidth, cellHeight);
 					g.setColor(Color.BLACK);
 					g.drawRect((col*cellWidth),(row*cellHeight), cellWidth, cellHeight);
