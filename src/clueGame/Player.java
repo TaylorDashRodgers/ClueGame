@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,7 +19,7 @@ abstract public class Player {
 	private int row, column;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private boolean isHuman;
-	protected ArrayList<Card> seen = new ArrayList<Card>(); 
+	protected Set<Card> seen = new HashSet<Card>();
 
 	public void draw(int cellWidth, int cellHeight, Graphics g, String who){
 		BufferedImage myPicture;
@@ -100,7 +102,7 @@ abstract public class Player {
 		seen.add(card);
 	}
 
-	public ArrayList<Card> getSeen(){
+	public Set<Card> getSeen(){
 		return seen;
 	}
 	
