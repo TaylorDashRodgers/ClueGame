@@ -40,14 +40,15 @@ public class Board extends JPanel {
 	private String csvConfig, txtConfig;
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
-	//I think we need these not sure
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
+	//File names for the sprites
 	private String[] sprites = {"im","cap","hulk","bp","nat","wanda"};
+	//used to track human players turn 
 	private boolean moved = false;
 	private boolean turnOver = false;
-	private GameControlPanel controlPanel;
+
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -152,7 +153,6 @@ public class Board extends JPanel {
 					if(target.isRoom()) {
 						players.get(currentPlayer).setColumn(target.getCol());
 						players.get(currentPlayer).setRow(target.getRow());
-						System.out.println("room");
 					}
 				}
 				repaint();
