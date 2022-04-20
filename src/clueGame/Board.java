@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -89,11 +90,12 @@ public class Board extends JPanel {
 						repaint();
 						// If the player is moved to a room it handles the suggestion for the player to make at this time. 
 						if(target.isRoom()){
-							JFrame suggestion = new JFrame("suggestion");
+							JFrame suggestion = new JFrame("Suggestion");
 							suggestion.setSize(400,200);
 							suggestion.setLocationRelativeTo(null);
 							suggestion.setVisible(true);
-							JLabel suggestionLabel = new JLabel("suggestion");
+							JLabel suggestionLabel = new JLabel("Suggestion");
+							suggestionLabel.setForeground(Color.WHITE);
 							suggestionLabel.setHorizontalAlignment(JLabel.CENTER);
 							suggestion.add(suggestionLabel);
 							turnOver = true;
