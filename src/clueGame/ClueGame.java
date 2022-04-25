@@ -50,7 +50,7 @@ public class ClueGame extends JFrame{
 
     public static void main(String[] args) throws IOException {
     	Music theme = new Music();
-    	theme.avengersTheme();
+//    	theme.avengersTheme();
     	ClueGame frame = new ClueGame();
     	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);

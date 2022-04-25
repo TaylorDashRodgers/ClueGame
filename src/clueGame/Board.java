@@ -1,9 +1,13 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -21,11 +25,14 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -41,8 +48,11 @@ public class Board extends JPanel {
 	private ArrayList<String> boardCells = new ArrayList<String>();
 	private Map<Character,Room> roomsMap = new HashMap<Character,Room>();
 	private ArrayList<Card> deck = new ArrayList<Card>();
+	private ArrayList<Card> weaponCards = new ArrayList<Card>();
+	private ArrayList<Card> roomCards = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
+	private JComboBox<String> weaponS, personS;
 	//File names for the sprites
 	private String[] sprites = {"im","cap","hulk","bp","nat","wanda"};
 	//used to track human players turn 
@@ -89,13 +99,37 @@ public class Board extends JPanel {
 						repaint();
 						// If the player is moved to a room it handles the suggestion for the player to make at this time. 
 						if(target.isRoom()){
-							JFrame suggestion = new JFrame("suggestion");
-							suggestion.setSize(400,200);
+							UIManager UI=new UIManager();
+					    	UI.put("OptionPane.background", Color.white);
+					    	UI.put("Panel.background",  Color.white);
+							JFrame suggestion = new JFrame("Make a Suggestion");
+							JPanel suggestionPanel = new JPanel(new GridLayout(4,2));
+							suggestion.setSize(300,150);
 							suggestion.setLocationRelativeTo(null);
 							suggestion.setVisible(true);
-							JLabel suggestionLabel = new JLabel("suggestion");
-							suggestionLabel.setHorizontalAlignment(JLabel.CENTER);
-							suggestion.add(suggestionLabel);
+							JButton submit = new JButton("Submit");
+							JButton cancel = new JButton("Cancel");
+							JLabel roomLabel = new JLabel("Current room");
+							JLabel roomS = new JLabel(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName());
+							JLabel weaponLabel = new JLabel("Weapon");
+							JLabel personLabel = new JLabel("Person");
+							weaponS = new JComboBox<String>();
+							personS = new JComboBox<String>();
+							for(Player player : players) {
+								personS.addItem(player.getName());
+							}
+							for(Card wep : weaponCards) {
+								weaponS.addItem(wep.getCardName());
+							}
+							suggestionPanel.add(roomLabel);
+							suggestionPanel.add(roomS);
+							suggestionPanel.add(personLabel);
+							suggestionPanel.add(personS);
+							suggestionPanel.add(weaponLabel);
+							suggestionPanel.add(weaponS);
+							suggestionPanel.add(submit);
+							suggestionPanel.add(cancel);
+							suggestion.add(suggestionPanel);
 							turnOver = true;
 						}
 						else {
@@ -108,6 +142,16 @@ public class Board extends JPanel {
 			if(!moved) {
 				System.out.println("Error not possible");
 			}
+		}
+	}
+	
+	private class SuggestionButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			Suggestion s =  new Suggestion();
+			//s.setRoom(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer));
+			s.setPerson(personS.getSelectedItem());
+			handleSuggestion(s);
+			
 		}
 	}
 
@@ -171,6 +215,41 @@ public class Board extends JPanel {
 			
 			
 		}
+	}
+
+	public void accusation() {
+		JFrame accusation = new JFrame("Make an Accusation");
+		JPanel accusationPanel = new JPanel(new GridLayout(4,2));
+		accusation.setSize(300,150);
+		accusation.setLocationRelativeTo(null);
+		accusation.setVisible(true);
+		JButton submit = new JButton("Submit");
+		JButton cancel = new JButton("Cancel");
+		JLabel roomLabel = new JLabel("Room");
+		JLabel weaponLabel = new JLabel("Weapon");
+		JLabel personLabel = new JLabel("Person");
+		JComboBox<String> weaponS, personS, roomS;
+		weaponS = new JComboBox<String>();
+		personS = new JComboBox<String>();
+		roomS = new JComboBox<String>();
+		for(Player player : players) {
+			personS.addItem(player.getName());
+		}
+		for(Card wep : weaponCards) {
+			weaponS.addItem(wep.getCardName());
+		}
+		for(Card room : roomCards) {
+			roomS.addItem(room.getCardName());
+		}
+		accusationPanel.add(roomLabel);
+		accusationPanel.add(roomS);
+		accusationPanel.add(personLabel);
+		accusationPanel.add(personS);
+		accusationPanel.add(weaponLabel);
+		accusationPanel.add(weaponS);
+		accusationPanel.add(submit);
+		accusationPanel.add(cancel);
+		accusation.add(accusationPanel);
 	}
 	
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -481,6 +560,14 @@ public class Board extends JPanel {
 		}
 	}
 
+	public Card getCard(String name) {
+		for(Card card : deck) {
+			if(card.getCardName() == name) {
+				return card;
+			}
+		}
+		return null;
+	}
 	public Room getRoom(char c) {
 		return roomsMap.get(c);
 	}
@@ -561,6 +648,7 @@ public class Board extends JPanel {
 			if(line[0].equals("Weapon")) {
 				Card card = new Card(line[1], CardType.WEAPON);
 				deck.add(card);
+				weaponCards.add(card);
 			}
 			
 		}

@@ -64,6 +64,8 @@ public class GameControlPanel extends JPanel{
 		Top2.add(rolls);
 		Top.add(Top2);
 		Top3 = new JButton("Make Accusaiton");
+		AccusationButtonListener accusationListener = new AccusationButtonListener();
+		Top3.addActionListener(accusationListener);
 		Top.add(Top3);
 		
 		nextButton = new JButton("NEXT!");
@@ -88,6 +90,12 @@ public class GameControlPanel extends JPanel{
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			Board.getInstance().nextTurn();
+		}
+	}
+
+	private class AccusationButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			Board.getInstance().accusation();
 		}
 	}
 	
