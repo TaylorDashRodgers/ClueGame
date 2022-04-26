@@ -48,7 +48,7 @@ public class ClueGame extends JFrame{
 		
 		
 		
-		setSize(900,900);
+		setSize(750,750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		cards = GameCards.getInstance();
 		cards.initialize();

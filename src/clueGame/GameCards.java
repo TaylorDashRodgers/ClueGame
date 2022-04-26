@@ -48,6 +48,7 @@ public class GameCards extends JPanel{
         seenPeople.setHorizontalAlignment(JLabel.LEFT);
         People.add(seenPeople);
         peopleCardsSeen = new JPanel();
+		peopleCardsSeen.setLayout(new GridLayout(0,1));
         People.add(peopleCardsSeen);
         Rooms = new JPanel();
         Rooms.setLayout(new GridLayout(4,0));

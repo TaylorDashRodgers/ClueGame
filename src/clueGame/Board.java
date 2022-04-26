@@ -152,6 +152,10 @@ public class Board extends JPanel {
 	
 	private class SuggestionButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
+			getPlayer(personS.getSelectedItem()).setColumn(players.get(currentPlayer).getColumn());
+			getPlayer(personS.getSelectedItem()).setRow(players.get(currentPlayer).getRow());
+			repaint();
+			
 			Suggestion s =  new Suggestion();
 			s.setRoom(getCard(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName()));
 			s.setPerson(getCard(personS.getSelectedItem()));
@@ -163,8 +167,20 @@ public class Board extends JPanel {
 				GameControlPanel.getInstance().setGuess(suggestionString);
 				GameControlPanel.getInstance().setGuessResult(handleSuggestion(s).getCardName());
 			}
+			else {
+				GameControlPanel.getInstance().setGuessResult("Nothing");
+			}
 			suggestion.setVisible(false);
 		}
+	}
+	
+	public Player getPlayer(Object object) {
+		for(Player player : players) {
+			if(player.getName() == object) {
+				return player;
+			}
+		}
+		return null;
 	}
 
 	public BoardCell[][] getBoard(){
@@ -222,7 +238,32 @@ public class Board extends JPanel {
 				}
 				repaint();
 				//Handle Accusations and Suggestions from computer
+				
+				if(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn()).isRoom()){
+					Suggestion s = new Suggestion();
+					for(Card card : weaponCards) {
+						if(!players.get(currentPlayer).getHand().contains(card)&&!players.get(currentPlayer).getSeen().contains(card)) {
+							s.setWeapon(card);
+							break;
+						}
+					}
+					for(Player player : players) {
+						if(!players.get(currentPlayer).getSeen().contains(getCard(player.getName()))&&!players.get(currentPlayer).getHand().contains(getCard(player.getName()))) {
+							s.setPerson(getCard(player.getName()));
+							player.setColumn(players.get(currentPlayer).getColumn());
+							player.setRow(players.get(currentPlayer).getRow());
+							repaint();
+							break;
+						}
+					}
+					s.setRoom(getCard(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName()));
+
+					players.get(currentPlayer).updateSeen(handleSuggestion(s));
+
+
+				}
 			}
+
 	
 			
 			
@@ -283,7 +324,10 @@ public class Board extends JPanel {
     			UI.put("OptionPane.background", new Color(175, 0, 0));
     			UI.put("Panel.background",  new Color(175, 0, 0));
     			UI.put("OptionPane.messageForeground", Color.white);
-				JOptionPane.showMessageDialog(null, "You are a winner!", "Winner", JOptionPane.INFORMATION_MESSAGE, icon);
+				int result = JOptionPane.showConfirmDialog(null, "You are a winner!", "Winner", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+				if(result == JOptionPane.OK_OPTION) {
+					System.exit(0);
+				}
 			}else{
 				ImageIcon icon = new ImageIcon("data/avengers.png");
     			Image image = icon.getImage();
@@ -293,7 +337,10 @@ public class Board extends JPanel {
     			UI.put("OptionPane.background", new Color(175, 0, 0));
     			UI.put("Panel.background",  new Color(175, 0, 0));
     			UI.put("OptionPane.messageForeground", Color.white);
-				JOptionPane.showMessageDialog(null, "You are a loser!", "Loser", JOptionPane.INFORMATION_MESSAGE, icon);
+				int result = JOptionPane.showConfirmDialog(null, "You are a loser!", "Loser", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+				if(result == JOptionPane.OK_OPTION) {
+					System.exit(0);
+				}
 			}
 		}
 	}
@@ -633,9 +680,9 @@ public class Board extends JPanel {
 	}
 
 	public Card handleSuggestion(Suggestion s){
-		for(Player player : players){
-			if(player.disproveSuggestion(s) != null){
-				return player.disproveSuggestion(s);
+		for(int i = 1; i<6 ; i++) {		
+			if(players.get((currentPlayer+i) % 6).disproveSuggestion(s) != null){
+				return players.get((currentPlayer+i) % 6).disproveSuggestion(s);
 			}
 		}
 		return null;
