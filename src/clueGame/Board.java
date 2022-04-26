@@ -268,10 +268,12 @@ public class Board extends JPanel {
 					else {
 						GameControlPanel.getInstance().setGuessResult("Nothing");
 					}
-					
 
 
 				}
+			}
+			if(players.get(currentPlayer).isHuman()) {
+				turnOver = false;
 			}
 		}
 	}
