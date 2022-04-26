@@ -87,16 +87,22 @@ public class GameCards extends JPanel{
 			if(temp.getCardType() == CardType.PERSON) {
 				JTextField tempText = new JTextField(temp.getCardName());
 				tempText.setEditable(false);
+				tempText.setForeground(Color.white);
+				tempText.setBackground(new Color(175, 0, 0));
 				peopleCardsHand.add(tempText);
 			}
 			if(temp.getCardType() == CardType.ROOM) {
 				JTextField tempText = new JTextField(temp.getCardName());
 				tempText.setEditable(false);
+				tempText.setForeground(Color.white);
+				tempText.setBackground(new Color(175, 0, 0));
 				roomCardsHand.add(tempText);
 			}
 			if(temp.getCardType() == CardType.WEAPON) {
 				JTextField tempText = new JTextField(temp.getCardName());
 				tempText.setEditable(false);
+				tempText.setForeground(Color.white);
+				tempText.setBackground(new Color(175, 0, 0));
 				weaponCardsHand.add(tempText);
 			}
 		}
@@ -105,6 +111,7 @@ public class GameCards extends JPanel{
     // Creates the add to the hand methods.
     public void addPersonHand(Card card) {
     	JTextField tempText = new JTextField(card.getCardName());
+    	tempText.setBackground(Color.red);
 		tempText.setEditable(false);
 		peopleCardsHand.add(tempText);
     	peopleCardsHand.revalidate();
@@ -112,39 +119,22 @@ public class GameCards extends JPanel{
     
     public void addRoomHand(Card card) {
     	JTextField tempText = new JTextField(card.getCardName());
+    	tempText.setBackground(Color.red);
 		tempText.setEditable(false);
 		roomCardsHand.add(tempText);
     	roomCardsHand.revalidate();
     }
     public void addWeaponHand(Card card) {
     	JTextField tempText = new JTextField(card.getCardName());
+    	tempText.setBackground(Color.red);
 		tempText.setEditable(false);
 		weaponCardsHand.add(tempText);
     	weaponCardsHand.revalidate();
     }
-
-    // Creates the add to the seen methods.
-    public void addPersonSeen(Card card) {
-    	JTextField tempText = new JTextField(card.getCardName());
-		tempText.setEditable(false);
-		peopleCardsSeen.add(tempText);
-    	peopleCardsSeen.revalidate();
-    }
-    public void addRoomSeen(Card card) {
-    	JTextField tempText = new JTextField(card.getCardName());
-		tempText.setEditable(false);
-		roomCardsSeen.add(tempText);
-    	roomCardsSeen.revalidate();
-    }
-    public void addWeaponSeen(Card card) {
-    	JTextField tempText = new JTextField(card.getCardName());
-		tempText.setEditable(false);
-		weaponCardsSeen.add(tempText);
-    	weaponCardsSeen.revalidate();
-    }
     
     public void addSeen(Card card) {
     	JTextField tempText = new JTextField(card.getCardName());
+    	tempText.setBackground(Color.cyan);
 		tempText.setEditable(false);
 		if(card.getCardType()== CardType.PERSON) {
 			peopleCardsSeen.add(tempText);
@@ -168,7 +158,7 @@ public class GameCards extends JPanel{
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		
-		GameCards panel = new GameCards(board.getPlayers().get(0));  // create the panel
+		GameCards panel = new GameCards();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(160, 750);  // size the frame

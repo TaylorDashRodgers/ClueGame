@@ -143,10 +143,6 @@ public class Board extends JPanel {
 					}
 				}
 			}
-			// If a incorrect cell is clicked it will print an error message.
-			if(!moved) {
-				System.out.println("Error not possible");
-			}
 		}
 	}
 	
@@ -203,7 +199,11 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		// If the turn is not over it will display an error message.
 		if(!turnOver) {
-			System.out.println("Error finish your turn");
+			ImageIcon icon = new ImageIcon("data/avengers.png");
+    		Image image = icon.getImage();
+    		Image newimg = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+    		icon = new ImageIcon(newimg);
+			int result = JOptionPane.showConfirmDialog(null, "Finish your turn!", "Finish!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
 		}
 		else {
 			// Handles all of the cases for moving to the next player including when it is the last player the current player will then be the first player again.
@@ -259,14 +259,20 @@ public class Board extends JPanel {
 					s.setRoom(getCard(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName()));
 
 					players.get(currentPlayer).updateSeen(handleSuggestion(s));
+					
+					String suggestionString = s.getRoom().getCardName() + ", " + s.getPerson().getCardName() + ", " + s.getWeapon().getCardName();
+					GameControlPanel.getInstance().setGuess(suggestionString);
+					if(handleSuggestion(s)!= null) {
+						GameControlPanel.getInstance().setGuessResult(handleSuggestion(s).getCardName());
+					}
+					else {
+						GameControlPanel.getInstance().setGuessResult("Nothing");
+					}
+					
 
 
 				}
 			}
-
-	
-			
-			
 		}
 	}
 
@@ -560,7 +566,6 @@ public class Board extends JPanel {
 				}
 			}
 		}
-		System.out.println(solution.getPerson().getCardName()+solution.getRoom().getCardName()+solution.getWeapon().getCardName());
 		//random for rest of players
 		while( tempDeck.size() !=0) {
 			// goes through the rest of the deck and deals out to the cards.
