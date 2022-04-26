@@ -22,6 +22,17 @@ public class ClueGame extends JFrame{
     private static GameControlPanel control;
     private GameCards cards; 
     private static Board board;
+    
+//    private static ClueGame theInstance = new ClueGame();
+//	// constructor is private to ensure only one can be created
+//
+//	// this method returns the only Board
+//	public static ClueGame getInstance() {
+//		return theInstance;
+//	}
+//	public GameCards getCards() {
+//		return cards;
+//	}
 	
 	public ClueGame() throws IOException {
 		control = GameControlPanel.getInstance();
@@ -39,7 +50,8 @@ public class ClueGame extends JFrame{
 		
 		setSize(900,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cards = new GameCards(board.getPlayers().get(5));
+		cards = GameCards.getInstance();
+		cards.initialize();
 
        
 
@@ -50,7 +62,7 @@ public class ClueGame extends JFrame{
 
     public static void main(String[] args) throws IOException {
     	Music theme = new Music();
-//    	theme.avengersTheme();
+    	theme.avengersTheme();
     	ClueGame frame = new ClueGame();
     	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);

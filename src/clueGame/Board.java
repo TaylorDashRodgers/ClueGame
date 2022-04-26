@@ -36,6 +36,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+//import clueGame.GameControlPanel.AccusationButtonListener;
+
 public class Board extends JPanel {
 	// Declares all of our variables we will be using.
 	private BoardCell[][] board;
@@ -52,7 +54,8 @@ public class Board extends JPanel {
 	private ArrayList<Card> roomCards = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Solution solution = new Solution();
-	private JComboBox<String> weaponS, personS;
+	private JComboBox<String> weaponS, personS, weaponA, personA, roomA;
+	private JFrame suggestion, accusation;
 	//File names for the sprites
 	private String[] sprites = {"im","cap","hulk","bp","nat","wanda"};
 	//used to track human players turn 
@@ -102,12 +105,14 @@ public class Board extends JPanel {
 							UIManager UI=new UIManager();
 					    	UI.put("OptionPane.background", Color.white);
 					    	UI.put("Panel.background",  Color.white);
-							JFrame suggestion = new JFrame("Make a Suggestion");
+							suggestion = new JFrame("Make a Suggestion");
 							JPanel suggestionPanel = new JPanel(new GridLayout(4,2));
 							suggestion.setSize(300,150);
 							suggestion.setLocationRelativeTo(null);
 							suggestion.setVisible(true);
 							JButton submit = new JButton("Submit");
+							SuggestionButtonListener suggestionListener = new SuggestionButtonListener();
+							submit.addActionListener(suggestionListener);
 							JButton cancel = new JButton("Cancel");
 							JLabel roomLabel = new JLabel("Current room");
 							JLabel roomS = new JLabel(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName());
@@ -148,10 +153,17 @@ public class Board extends JPanel {
 	private class SuggestionButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			Suggestion s =  new Suggestion();
-			//s.setRoom(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer));
-			s.setPerson(personS.getSelectedItem());
-			handleSuggestion(s);
-			
+			s.setRoom(getCard(getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName()));
+			s.setPerson(getCard(personS.getSelectedItem()));
+			s.setWeapon(getCard(weaponS.getSelectedItem()));
+			if(handleSuggestion(s)!= null) {
+				players.get(currentPlayer).updateSeen(handleSuggestion(s));
+				GameCards.getInstance().addSeen(handleSuggestion(s));
+				String suggestionString = getRoom(getCell(players.get(currentPlayer).getRow(), players.get(currentPlayer).getColumn())).getName() + ", " + personS.getSelectedItem() + ", " + weaponS.getSelectedItem();
+				GameControlPanel.getInstance().setGuess(suggestionString);
+				GameControlPanel.getInstance().setGuessResult(handleSuggestion(s).getCardName());
+			}
+			suggestion.setVisible(false);
 		}
 	}
 
@@ -218,38 +230,72 @@ public class Board extends JPanel {
 	}
 
 	public void accusation() {
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background", Color.white);
+		UI.put("Panel.background",  Color.white);
 		JFrame accusation = new JFrame("Make an Accusation");
 		JPanel accusationPanel = new JPanel(new GridLayout(4,2));
 		accusation.setSize(300,150);
 		accusation.setLocationRelativeTo(null);
 		accusation.setVisible(true);
 		JButton submit = new JButton("Submit");
+		SubmitButtonListener submitListener = new SubmitButtonListener();
+		submit.addActionListener(submitListener);
 		JButton cancel = new JButton("Cancel");
 		JLabel roomLabel = new JLabel("Room");
 		JLabel weaponLabel = new JLabel("Weapon");
 		JLabel personLabel = new JLabel("Person");
-		JComboBox<String> weaponS, personS, roomS;
-		weaponS = new JComboBox<String>();
-		personS = new JComboBox<String>();
-		roomS = new JComboBox<String>();
+		weaponA = new JComboBox<String>();
+		personA = new JComboBox<String>();
+		roomA = new JComboBox<String>();
 		for(Player player : players) {
-			personS.addItem(player.getName());
+			personA.addItem(player.getName());
 		}
 		for(Card wep : weaponCards) {
-			weaponS.addItem(wep.getCardName());
+			weaponA.addItem(wep.getCardName());
 		}
 		for(Card room : roomCards) {
-			roomS.addItem(room.getCardName());
+			roomA.addItem(room.getCardName());
 		}
 		accusationPanel.add(roomLabel);
-		accusationPanel.add(roomS);
+		accusationPanel.add(roomA);
 		accusationPanel.add(personLabel);
-		accusationPanel.add(personS);
+		accusationPanel.add(personA);
 		accusationPanel.add(weaponLabel);
-		accusationPanel.add(weaponS);
+		accusationPanel.add(weaponA);
 		accusationPanel.add(submit);
 		accusationPanel.add(cancel);
 		accusation.add(accusationPanel);
+	}
+
+	private class SubmitButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			Accusation a = new Accusation();
+			a.setRoom(getCard(roomA.getSelectedItem()));
+			a.setPerson(getCard(personA.getSelectedItem()));
+			a.setWeapon(getCard(weaponA.getSelectedItem()));
+			if(checkAccusation(a)) {
+				ImageIcon icon = new ImageIcon("data/avengers.png");
+    			Image image = icon.getImage();
+    			Image newimg = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+    			icon = new ImageIcon(newimg);
+				UIManager UI=new UIManager();
+    			UI.put("OptionPane.background", new Color(175, 0, 0));
+    			UI.put("Panel.background",  new Color(175, 0, 0));
+    			UI.put("OptionPane.messageForeground", Color.white);
+				JOptionPane.showMessageDialog(null, "You are a winner!", "Winner", JOptionPane.INFORMATION_MESSAGE, icon);
+			}else{
+				ImageIcon icon = new ImageIcon("data/avengers.png");
+    			Image image = icon.getImage();
+    			Image newimg = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+    			icon = new ImageIcon(newimg);
+				UIManager UI=new UIManager();
+    			UI.put("OptionPane.background", new Color(175, 0, 0));
+    			UI.put("Panel.background",  new Color(175, 0, 0));
+    			UI.put("OptionPane.messageForeground", Color.white);
+				JOptionPane.showMessageDialog(null, "You are a loser!", "Loser", JOptionPane.INFORMATION_MESSAGE, icon);
+			}
+		}
 	}
 	
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -467,6 +513,7 @@ public class Board extends JPanel {
 				}
 			}
 		}
+		System.out.println(solution.getPerson().getCardName()+solution.getRoom().getCardName()+solution.getWeapon().getCardName());
 		//random for rest of players
 		while( tempDeck.size() !=0) {
 			// goes through the rest of the deck and deals out to the cards.
@@ -560,14 +607,15 @@ public class Board extends JPanel {
 		}
 	}
 
-	public Card getCard(String name) {
+	public Card getCard(Object object) {
 		for(Card card : deck) {
-			if(card.getCardName() == name) {
+			if(card.getCardName() == object) {
 				return card;
 			}
 		}
 		return null;
 	}
+	
 	public Room getRoom(char c) {
 		return roomsMap.get(c);
 	}
@@ -615,6 +663,7 @@ public class Board extends JPanel {
 				roomsMap.put(line[2].charAt(0),new Room(line[1],line[2].charAt(0)));
 				Card card = new Card(line[1],CardType.ROOM);
 				deck.add(card);
+				roomCards.add(card);
 			}
 			if(line[0].equals("Person")) {
 				Card card = new Card(line[1], CardType.PERSON);

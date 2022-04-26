@@ -102,6 +102,7 @@ public class GameControlPanel extends JPanel{
 	// Creates our setGuess method.
     public void setGuess(String guesss) {
 		guess.setText(guesss);
+		guess.setBackground(Color.cyan);
     }
     
 	// Creates our setTurn method.
@@ -115,6 +116,7 @@ public class GameControlPanel extends JPanel{
 	// Creates our setGuessResult method.
     public void setGuessResult(String stringo) {
     	guessResult.setText(stringo);
+    	guessResult.setBackground(Color.cyan);
     }
 	
 	/**

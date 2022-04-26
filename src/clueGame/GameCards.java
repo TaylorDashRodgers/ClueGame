@@ -19,8 +19,19 @@ public class GameCards extends JPanel{
 	
 	private static Board board;
 	
+  private static GameCards theInstance = new GameCards();
+	// constructor is private to ensure only one can be created
 
-    public GameCards(Player player) {
+	// this method returns the only Board
+	public static GameCards getInstance() {
+		return theInstance;
+	}
+
+	
+	
+
+    public void initialize() {
+    	Player player = board.getInstance().getPlayers().get(5);
     	setBorder(new TitledBorder(new EtchedBorder(), "Known Cards:"));
         setLayout(new GridLayout(3,0));
         People = new JPanel();
@@ -129,6 +140,23 @@ public class GameCards extends JPanel{
 		tempText.setEditable(false);
 		weaponCardsSeen.add(tempText);
     	weaponCardsSeen.revalidate();
+    }
+    
+    public void addSeen(Card card) {
+    	JTextField tempText = new JTextField(card.getCardName());
+		tempText.setEditable(false);
+		if(card.getCardType()== CardType.PERSON) {
+			peopleCardsSeen.add(tempText);
+	    	peopleCardsSeen.revalidate();
+		}
+		if(card.getCardType()== CardType.WEAPON) {
+			weaponCardsSeen.add(tempText);
+	    	weaponCardsSeen.revalidate();
+		}
+		if(card.getCardType()== CardType.ROOM) {
+			roomCardsSeen.add(tempText);
+	    	roomCardsSeen.revalidate();
+		}
     }
     
     
